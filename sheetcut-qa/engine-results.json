@@ -1,0 +1,140 @@
+[
+  {
+    "name": "Exact-fit finished rectangle",
+    "passed": true,
+    "ms": 2.2394
+  },
+  {
+    "name": "Four 500x500 on 1000x1000, zero gap",
+    "passed": true,
+    "ms": 7.989700000000003
+  },
+  {
+    "name": "Four 500x500 with nonzero kerf",
+    "passed": true,
+    "ms": 0.7927999999999997
+  },
+  {
+    "name": "Exact fit has no fictitious outer gap",
+    "passed": true,
+    "ms": 0.6529999999999987
+  },
+  {
+    "name": "Rotation required",
+    "passed": true,
+    "ms": 0.4006000000000043
+  },
+  {
+    "name": "Rotation forbidden by part or global policy",
+    "passed": true,
+    "ms": 0.6028999999999982
+  },
+  {
+    "name": "Identical rectangles across multiple sheets",
+    "passed": true,
+    "ms": 9.316899999999997
+  },
+  {
+    "name": "Different stock dimensions with finite availability",
+    "passed": true,
+    "ms": 0.7736000000000018
+  },
+  {
+    "name": "Finite stock never exceeded",
+    "passed": true,
+    "ms": 0.5776000000000039
+  },
+  {
+    "name": "Reserved JavaScript names are safe stock IDs",
+    "passed": true,
+    "ms": 0.9450999999999965
+  },
+  {
+    "name": "Materials and thickness remain isolated",
+    "passed": true,
+    "ms": 0.7708999999999975
+  },
+  {
+    "name": "Oversized part explanation",
+    "passed": true,
+    "ms": 0.2261000000000024
+  },
+  {
+    "name": "Tight margins and exact gap",
+    "passed": true,
+    "ms": 0.317699999999995
+  },
+  {
+    "name": "Floating point dimensions",
+    "passed": true,
+    "ms": 0.7039000000000044
+  },
+  {
+    "name": "Utilization, unused area and perimeter arithmetic",
+    "passed": true,
+    "ms": 0.4521999999999977
+  },
+  {
+    "name": "Common-line union and cutting time",
+    "passed": true,
+    "ms": 0.8064000000000036
+  },
+  {
+    "name": "Common-line ineligible with kerf or spacing",
+    "passed": true,
+    "ms": 1.1185000000000045
+  },
+  {
+    "name": "Partial shared edges counted once",
+    "passed": true,
+    "ms": 0.16399999999999437
+  },
+  {
+    "name": "Grain and rotation enforcement",
+    "passed": true,
+    "ms": 0.606899999999996
+  },
+  {
+    "name": "All guillotine variants produce validated layouts",
+    "passed": true,
+    "ms": 2.5500000000000043
+  },
+  {
+    "name": "Validator rejects collision, bounds, size, inventory and quantity corruption",
+    "passed": true,
+    "ms": 0.8342999999999989
+  },
+  {
+    "name": "Input validation rejects invalid values and duplicate IDs",
+    "passed": true,
+    "ms": 5.755899999999997
+  },
+  {
+    "name": "Cost objective rejects missing prices",
+    "passed": true,
+    "ms": 0.4048999999999978
+  },
+  {
+    "name": "Offcuts are disjoint and outside finished parts",
+    "passed": true,
+    "ms": 0.91129999999999
+  },
+  {
+    "name": "Seeded fuzz: all MaxRects fits and guillotine splits",
+    "passed": true,
+    "ms": 90.6619
+  },
+  {
+    "benchmark": "1000 rectangles, Node engine",
+    "elapsedMs": 1718.8418,
+    "attempts": 24,
+    "sheets": 19,
+    "utilization": 89.36168421052632,
+    "stopReason": "complete"
+  },
+  {
+    "name": "1000-rectangle balanced benchmark",
+    "passed": true,
+    "ms": 1732.9259
+  }
+]

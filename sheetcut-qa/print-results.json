@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "checks": [
+    "Print root uses light color scheme",
+    "Paper including margins is white",
+    "Alternative candidate labeled accurately",
+    "Native PDF export generated"
+  ],
+  "browserVersion": "156.0.8078.73"
+}

@@ -1,0 +1,9 @@
+id,name,width,height,quantity,material,thickness,rotate,grain,priority,color,notes,unit
+P-01,Side panel,620,420,6,Mild steel,2,true,none,0,#78baca,,mm
+P-02,Rear panel,800,300,4,Mild steel,2,true,none,0,#d9ab6e,,mm
+P-03,Door blank,410,280,8,Mild steel,2,true,none,0,#9cadde,,mm
+P-04,Mounting plate,240,160,12,Mild steel,2,true,none,0,#9ec28b,,mm
+P-05,Cross member,580,90,6,Mild steel,2,true,none,0,#d599a8,,mm
+QA-PART,P-06,125,75,3,Mild steel,2,true,none,0,#b4a2cc,,mm
+QA-CSV,"Quoted, part",100,50,2,Mild steel,2,true,none,0,#78baca,"two
+lines",mm

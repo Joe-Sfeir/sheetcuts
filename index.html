@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>SheetCut Pro — 2D Cutting Optimizer</title>
+<style>
+:root{color-scheme:dark;--bg:#111820;--panel:#19232e;--panel2:#202d3a;--input:#101a24;--line:#354554;--text:#e7edf3;--muted:#aab9c7;--accent:#70dfcc;--accent-ink:#102923;--warn:#ffd18b;--bad:#ffaba8;--canvas:#0d141d;--focus:#96caff;--radius:5px;font:13px/1.45 "Segoe UI",system-ui,sans-serif}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text)}body.light{color-scheme:light;--bg:#e7edf1;--panel:#f8fafb;--panel2:#edf2f5;--input:#fff;--line:#bac7d1;--text:#1b2d3a;--muted:#4f6474;--accent:#157966;--accent-ink:#fff;--warn:#825000;--bad:#b32828;--canvas:#d5dfe6;--focus:#175caa}button,input,select,textarea{font:inherit;color:inherit}button,select{cursor:pointer}button{background:var(--panel2);border:1px solid var(--line);border-radius:var(--radius);min-height:32px;padding:5px 11px;white-space:nowrap}button:hover{background:var(--line)}button:disabled{opacity:.45;cursor:not-allowed}button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700}button.primary:hover{filter:brightness(1.08)}button.quiet{background:transparent}button.danger{color:var(--bad)}button.small{min-height:27px;padding:3px 7px;font-size:12px}input,select,textarea{background:var(--input);border:1px solid var(--line);border-radius:4px;padding:6px 8px;min-width:0;width:100%;caret-color:var(--accent)}input[type=checkbox]{width:16px;height:16px;accent-color:var(--accent)}input[type=color]{height:34px;padding:3px}input:focus,select:focus,textarea:focus,button:focus-visible,a:focus-visible,summary:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--focus);outline-offset:2px}::selection{background:#3e786e;color:white}*{scrollbar-width:thin;scrollbar-color:var(--line) transparent}h1,h2,h3,p{margin:0}h2{font-size:14px;font-weight:650}h3{font-size:13px}small,.muted{color:var(--muted)}.mono,.num{font-variant-numeric:tabular-nums}.num{text-align:right}a{color:var(--accent)}.toolbar{min-height:66px;display:flex;align-items:center;gap:10px;padding:11px 18px;border-bottom:1px solid var(--line);background:var(--panel)}.brand{display:flex;align-items:center;gap:10px;min-width:190px}.brand svg{width:30px;height:30px;flex:none}.brand strong{font-size:19px;letter-spacing:-.6px}.brand small{font-size:10px;letter-spacing:1.5px;display:block}.project-title{width:220px;background:transparent;border-color:transparent;font-weight:600}.project-title:hover{border-color:var(--line)}.toolbar .spacer{flex:1}.divider{height:25px;border-left:1px solid var(--line);margin:0 3px}.toolbar select{width:auto;max-width:150px}.mobile-nav{display:none}.app{display:grid;grid-template-columns:370px minmax(400px,1fr) 270px;height:calc(100dvh - 98px);min-height:560px}.inputs,.results{overflow:auto;background:var(--panel)}.inputs{border-right:1px solid var(--line)}.results{border-left:1px solid var(--line)}.section{padding:17px 16px;border-bottom:1px solid var(--line)}.section-title{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:13px}.section-title span.count{font-size:11px;color:var(--muted);font-weight:400;margin-left:7px}.section details>summary{font-size:14px;font-weight:650;cursor:pointer;margin-bottom:14px}.row{display:flex;align-items:center;gap:7px}.row.wrap{flex-wrap:wrap}.between{justify-content:space-between}.stack{display:grid;gap:12px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:grid;gap:5px;font-size:12px;color:var(--muted)}.field.full{grid-column:1/-1}.field input,.field select,.field textarea{color:var(--text)}.check{display:flex;gap:8px;align-items:center;color:var(--text);font-size:12px}.stock-item{padding:10px 0;border-bottom:1px solid var(--line)}.stock-item:last-child{border-bottom:0}.stock-item strong{font-size:13px}.stock-item .sub{font-size:11px;color:var(--muted);margin-top:3px}.stock-item.inactive{opacity:.6}.stock-actions{display:flex;gap:4px;margin-top:8px}.stock-actions button{font-size:11px;padding:2px 7px;min-height:24px}.table-scroll{overflow:auto;max-width:100%}table{width:100%;border-collapse:collapse;white-space:nowrap;font-size:12px}th{font-size:10px;letter-spacing:.6px;text-transform:uppercase;font-weight:600;color:var(--muted);text-align:left;background:var(--panel2);position:sticky;top:0;z-index:1}td,th{padding:8px 9px;border-bottom:1px solid var(--line)}td .cell-edit{padding:0;min-height:25px;background:transparent;border:0;text-align:left;color:var(--text)}.parts-table td,.parts-table th{padding:6px 5px}.parts-table input{padding:4px;width:58px;font-size:12px}.parts-table input.qty{width:43px}.swatch{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:6px}.input-summary{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin:10px 0}.hint{font-size:11px;color:var(--muted);line-height:1.5}.workspace{min-width:0;display:flex;flex-direction:column;overflow:hidden}.workspace-toolbar{padding:11px 16px;display:flex;align-items:center;gap:8px;background:var(--panel);border-bottom:1px solid var(--line);min-height:55px;flex-wrap:wrap}.workspace-toolbar h2{margin-right:auto}.workspace-toolbar select{width:auto;max-width:200px}.view-switch{display:flex;gap:0}.view-switch button{border-radius:0}.view-switch button:first-child{border-radius:4px 0 0 4px}.view-switch button:last-child{border-radius:0 4px 4px 0}.active{background:var(--line)!important;color:var(--accent)!important}.plan-meta{display:flex;align-items:center;justify-content:space-between;padding:10px 17px;font-size:11px;color:var(--muted);gap:12px}.stage{flex:1;min-height:260px;position:relative;overflow:hidden;background:var(--canvas)}.stage svg{display:block;width:100%;height:100%;touch-action:none;user-select:none}.stage .sheet-svg{cursor:grab}.stage .sheet-svg:active{cursor:grabbing}.stage g.part{cursor:pointer}.stage g.part:hover rect.face{stroke:#101c28;stroke-width:2;filter:brightness(1.08)}.stage .part.selected rect.face{stroke:#08131f;stroke-width:3}.stage .part.selected{filter:brightness(1.12)}.stage .part:focus{outline:none}.stage .part:focus rect.face{stroke:#000;stroke-width:3}.stage .empty{height:100%;display:flex;align-items:center;justify-content:center;text-align:center;padding:40px}.empty h2{font-size:22px;margin:10px 0}.empty p{color:var(--muted);max-width:400px;margin-bottom:20px}.canvas-controls{position:absolute;bottom:16px;left:16px;display:flex;gap:5px;background:var(--panel);padding:5px;border:1px solid var(--line);border-radius:6px}.canvas-controls button{min-width:32px}.canvas-note{position:absolute;right:17px;bottom:22px;font-size:10px;color:var(--muted);pointer-events:none}.overview{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;padding:20px;overflow:auto;height:100%;align-content:start}.sheet-card{padding:13px;text-align:left;white-space:normal;background:var(--panel);border:1px solid var(--line)}.sheet-card svg{height:155px;width:100%;margin:12px 0;pointer-events:none}.sheet-card .row{font-size:11px;color:var(--muted)}.reports{height:245px;min-height:120px;max-height:60vh;resize:vertical;overflow:auto;background:var(--panel);border-top:1px solid var(--line)}.report-tabs{display:flex;border-bottom:1px solid var(--line);gap:4px;padding:7px 12px;position:sticky;top:0;background:var(--panel);z-index:2;overflow:auto}.report-tabs button{border:0;background:transparent;font-size:12px}.report-content{padding:10px 15px}.statusbar{height:32px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 16px;background:var(--panel);border-top:1px solid var(--line);font-size:11px;color:var(--muted)}.status-dot{display:inline-block;width:6px;height:6px;background:var(--accent);border-radius:50%;margin-right:7px}.metric-lead{display:flex;align-items:baseline;justify-content:space-between;margin-top:14px}.metric-lead strong{font-size:42px;letter-spacing:-1.5px;font-weight:600;line-height:1.2}.metric-lead span{color:var(--accent);font-size:11px}.util-bar{height:9px;background:var(--line);margin:14px 0 8px;display:flex;overflow:hidden;border-radius:2px}.util-bar>i{display:block;background:var(--accent)}.metric-row{display:flex;justify-content:space-between;gap:14px;margin-top:10px;font-size:12px}.metric-row span{color:var(--muted)}.metric-row strong{font-weight:600;font-variant-numeric:tabular-nums;text-align:right}.result-heading{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}.badge{display:inline-flex;border:1px solid var(--line);padding:3px 7px;border-radius:3px;font-size:10px;color:var(--accent)}.warning{color:var(--warn)}.error{color:var(--bad)}.notice{padding:10px 12px;border:1px solid var(--line);font-size:12px;margin-bottom:12px;background:var(--panel2)}.progress{display:none;padding:10px 16px;background:var(--panel2);border-bottom:1px solid var(--line);align-items:center;gap:12px}.progress.on{display:flex}.progress progress{flex:1;accent-color:var(--accent);height:8px}.toast{position:fixed;bottom:44px;left:50%;transform:translateX(-50%);max-width:min(600px,90vw);background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:6px;padding:12px 18px;z-index:20;box-shadow:0 8px 30px #0005}.toast.error{border-color:var(--bad)}dialog{background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:9px;padding:0;max-height:88dvh;width:min(620px,94vw);box-shadow:0 18px 60px #0007}dialog.wide{width:min(1000px,94vw)}dialog::backdrop{background:#040b13b8}.modal-head{display:flex;align-items:center;justify-content:space-between;padding:17px 22px;border-bottom:1px solid var(--line)}.modal-head h2{font-size:18px}.modal-body{padding:20px 22px;overflow:auto;max-height:calc(88dvh - 135px)}.modal-foot{display:flex;justify-content:flex-end;gap:8px;padding:13px 22px;border-top:1px solid var(--line)}.form-error{color:var(--bad);font-size:12px;margin-bottom:12px;white-space:pre-line}.library-item{display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--line);gap:10px}.library-item strong{display:block}.library-item small{display:block}.help p,.help ul{margin:0 0 13px}.help h3{margin:20px 0 7px}.print-root{display:none}.selected-info{padding-top:10px}.selected-info h3{font-size:15px;margin-bottom:6px}.selected-info .fields{gap:8px;margin:12px 0}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+@media(min-width:1750px){.app{grid-template-columns:400px minmax(500px,1fr) 300px}.section{padding:19px 20px}.reports{height:270px}}
+@media(max-width:1250px) and (min-width:901px){.app{grid-template-columns:325px minmax(320px,1fr) 230px}.toolbar{gap:6px;padding:10px}.brand{min-width:160px}.brand strong{font-size:17px}.project-title{width:155px}.toolbar .divider{display:none}.toolbar button{padding:5px 8px}.section{padding:13px}.canvas-note{display:none}.metric-lead strong{font-size:35px}}
+@media(max-width:900px){.toolbar{flex-wrap:wrap;padding:10px 12px;gap:7px}.brand{flex:1}.project-title{width:180px}.toolbar .spacer,.toolbar .divider{display:none}.toolbar button{font-size:12px}.toolbar select{max-width:125px}.mobile-nav{display:flex;background:var(--panel);border-bottom:1px solid var(--line);padding:6px 12px;gap:6px}.mobile-nav button{flex:1}.app{display:block;height:calc(100dvh - 174px);min-height:560px}.inputs,.results,.workspace{display:none;height:100%;border:0}.app[data-pane=inputs] .inputs{display:block}.app[data-pane=layout] .workspace{display:flex}.app[data-pane=results] .results{display:block}.inputs,.results{max-width:none}.section{padding:17px 20px}.parts-table input{width:80px}.reports{height:200px;resize:none}.workspace-toolbar{padding:10px}.workspace-toolbar h2{width:100%}.stage{min-height:250px}.canvas-note{display:none}.statusbar{font-size:10px}.statusbar>span:last-child{display:none}.project-title{max-width:46vw}.toolbar #undo,.toolbar #redo{display:none}.metric-lead strong{font-size:44px}.results .section{max-width:650px;margin:auto}.overview{grid-template-columns:repeat(auto-fill,minmax(190px,1fr))}.modal-body{padding:17px}.modal-head,.modal-foot{padding:13px 17px}}
+/* Recovery actions remain touch-accessible in the wrapping mobile toolbar. */
+@media(max-width:900px){.toolbar #undo,.toolbar #redo{display:inline-block}.statusbar{height:auto;min-height:32px}.statusbar>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.canvas-note{display:none}}
+.stage .sheet-svg{height:calc(100% - 55px)}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+@media print{@page{size:A4 landscape;margin:12mm}body{background:white;color:#111;font:10pt Arial,sans-serif}body>*:not(.print-root){display:none!important}.print-root{display:block!important}.print-page{break-after:page}.print-page:last-child{break-after:auto}.print-root h1{font-size:22pt;margin-bottom:5mm}.print-root h2{font-size:15pt;margin:5mm 0}.print-root p{margin:3mm 0}.print-root svg{width:100%;height:115mm}.print-root table{font-size:9pt;white-space:normal}.print-root th{position:static;background:#eee;color:#222}.print-root td,.print-root th{border-bottom:1px solid #ccc;padding:2mm}.print-root .print-summary{display:flex;gap:12mm;margin:5mm 0}.print-root .muted{color:#555}}
+@media print{:root{color-scheme:light;background:#fff}html,body{background:#fff!important;color:#111}.print-root tr{break-inside:avoid}.print-root thead{display:table-header-group}}
+</style>
+</head>
+<body>
+<header class="toolbar">
+ <div class="brand"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M2 2h28v28H2z" fill="none" stroke="var(--accent)" stroke-width="2"/><path d="M4 4h14v9H4zm0 11h14v13H4zm16-11h8v24h-8z" fill="var(--accent)" opacity=".8"/></svg><div><strong>SheetCut <span style="color:var(--accent)">Pro</span></strong><small>2D CUTTING OPTIMIZER</small></div></div>
+ <label class="sr-only" for="projectName">Project name</label><input id="projectName" class="project-title" maxlength="100" title="Rename project">
+ <span class="divider"></span><button id="newProject" title="New project">New</button><button id="library">Open</button><button id="save" title="Save project (Ctrl+S)">Save</button><button id="saveAs">Save as</button>
+ <div class="spacer"></div><button id="undo" title="Undo (Ctrl+Z)" aria-label="Undo">Undo</button><button id="redo" title="Redo (Ctrl+Y)" aria-label="Redo">Redo</button><span class="divider"></span>
+ <button id="export">Export</button><button id="settings">Settings</button><button id="optimize" class="primary">Optimize layout</button>
+</header>
+<nav class="mobile-nav" aria-label="Workspace panels"><button data-pane="inputs">Inputs</button><button data-pane="layout" class="active">Layout</button><button data-pane="results">Results</button></nav>
+<main class="app" id="app" data-pane="layout">
+ <aside class="inputs" aria-label="Project inputs">
+  <section class="section"><div class="section-title"><h2>Material sheets <span class="count" id="stockCount"></span></h2><button class="small" id="addStock">+ Add stock</button></div><div id="stockList"></div></section>
+  <section class="section"><div class="section-title"><h2>Parts <span class="count" id="partCount"></span></h2><button class="small" id="addPart">+ Add part</button></div><label class="sr-only" for="partSearch">Filter parts</label><input id="partSearch" placeholder="Find a part by ID or name…" type="search"><div class="input-summary" id="partSummary"></div><div class="table-scroll"><table class="parts-table"><thead><tr><th>Part / edit</th><th>Width</th><th>Height</th><th>Qty</th><th>Rotate</th></tr></thead><tbody id="partRows"></tbody></table></div><div class="row wrap" style="margin-top:12px"><button class="small" id="bulk">Paste / CSV</button><button class="small" id="example">Load example</button></div></section>
+  <section class="section"><details open><summary>Cutting constraints</summary><div class="fields" id="cutSettings"></div><p class="hint" style="margin-top:12px">Finished dimensions. Clearance = kerf + spacing. Margins are reserved independently.</p></details></section>
+  <section class="section"><details open><summary>Optimization</summary><div class="stack" id="optSettings"></div></details></section>
+  <section class="section"><button id="help" class="quiet" style="width:100%">Geometry guide & keyboard shortcuts</button></section>
+ </aside>
+ <section class="workspace" aria-label="Cutting layout">
+  <div class="workspace-toolbar"><h2>Cutting plan</h2><div class="view-switch"><button id="detailView" class="active">Detail</button><button id="overviewView">Overview</button></div><label class="sr-only" for="sheetSelect">Selected sheet</label><select id="sheetSelect"><option>No layout yet</option></select></div>
+  <div class="progress" id="progress"><span id="progressText">Calculating…</span><progress id="progressBar" max="1" value="0"></progress><button id="cancel" class="small">Cancel</button></div>
+  <div class="plan-meta"><span id="planMeta">Ready to optimize</span><span id="validationBadge">Dimensions in mm</span></div>
+  <div id="stage" class="stage"></div>
+  <section class="reports" aria-label="Detailed reports"><nav class="report-tabs" aria-label="Report tabs"><button data-report="sheets" class="active">Sheets</button><button data-report="placements">Placements</button><button data-report="unplaced">Unplaced</button><button data-report="comparison">Compare strategies</button><button data-report="offcuts">Offcuts</button><button data-report="inventory">Inventory</button></nav><div id="report" class="report-content"></div></section>
+ </section>
+ <aside class="results" aria-label="Production results" id="results"></aside>
+</main>
+<footer class="statusbar"><span id="status" role="status"><i class="status-dot"></i>Workspace ready</span><span id="storageStatus">Local workspace · offline</span><span>Finished geometry · CAM review required</span></footer>
+<dialog id="modal" aria-labelledby="modalTitle"><div class="modal-head"><h2 id="modalTitle"></h2><button id="closeModal" aria-label="Close dialog">Close</button></div><div class="modal-body" id="modalBody"></div><div class="modal-foot" id="modalFoot"></div></dialog>
+<input id="fileInput" type="file" hidden>
+<div id="toast" class="toast" role="status" hidden></div>
+<div class="print-root" id="printRoot"></div>
+
+<script id="engine-source">
+/* Pure geometry engine. Serialized unchanged into a Blob worker when permitted.
+   Established MaxRects / Guillotine techniques: Jukka Jylanki, RectangleBinPack.
+   This implementation uses finished dimensions and a single right/bottom gap envelope. */
+function createEngine(){
+ 'use strict';
+ const EPS=1e-7, MAX_PARTS=5000, MAX_DIM=1e7;
+ const copy=x=>JSON.parse(JSON.stringify(x));
+ const finite=x=>typeof x==='number'&&Number.isFinite(x);
+ const near=(a,b)=>Math.abs(a-b)<=EPS;
+ const area=r=>r.w*r.h;
+ const overlap=(a,b)=>a.x<b.x+b.w-EPS&&a.x+a.w>b.x+EPS&&a.y<b.y+b.h-EPS&&a.y+a.h>b.y+EPS;
+ const contains=(a,b)=>b.x>=a.x-EPS&&b.y>=a.y-EPS&&b.x+b.w<=a.x+a.w+EPS&&b.y+b.h<=a.y+a.h+EPS;
+ const lex=(a,b)=>{for(let i=0;i<a.length;i++){if(a[i]<b[i]-EPS)return -1;if(a[i]>b[i]+EPS)return 1;}return 0;};
+ const defaults=()=>({unit:'mm',precision:2,theme:'dark',kerf:.2,spacing:1,top:10,right:10,bottom:10,left:10,rotate:true,method:'auto',effort:'balanced',objective:'balanced',common:false,speed:3000,pierce:.5,rapid:10000,setup:0,labels:true,grid:false,ruler:true,showKerf:false,offcuts:false,palette:'industrial',exportLabels:true});
+ function validateProject(p){
+  const e=[]; if(!p||typeof p!=='object')return ['Project must be an object.'];
+  if(p.version!==1)e.push('Unsupported project version.');
+  if(typeof p.name!=='string'||!p.name.trim()||p.name.length>100)e.push('Project name must contain 1–100 characters.');
+  if(!Array.isArray(p.stocks)||!Array.isArray(p.parts)||!p.settings)return e.concat('Missing stock, parts or settings.');
+  if(p.stocks.length>200||p.parts.length>5000)return e.concat('Limit: 200 stock types and 5,000 part types.');
+  const s=p.settings;
+  for(const k of ['kerf','spacing','top','right','bottom','left','pierce','rapid','setup'])if(!finite(s[k])||s[k]<0||s[k]>MAX_DIM)e.push(`${k}: enter a finite nonnegative value no greater than ${MAX_DIM}.`);
+  if(!finite(s.speed)||s.speed<=0||s.speed>MAX_DIM)e.push('Cutting speed must be positive and at most 10,000,000 mm/min.');
+  for(const [k,options] of Object.entries({unit:['mm','cm','in'],theme:['dark','light'],method:['auto','maxrects','guillotine'],effort:['fast','balanced','thorough'],objective:['sheets','utilization','cost','cut','balanced'],palette:['industrial','bright']}))if(!options.includes(s[k]))e.push(`Invalid ${k}.`);
+  if(!Number.isInteger(s.precision)||s.precision<0||s.precision>5)e.push('Precision must be 0–5.');
+  for(const k of ['rotate','common','labels','grid','ruler','showKerf','offcuts','exportLabels'])if(typeof s[k]!=='boolean')e.push(`Invalid ${k} flag.`);
+  for(const [key,rows] of [['Stock',p.stocks],['Part',p.parts]]){
+   const ids=new Set();for(const r of rows){
+    if(!r||typeof r!=='object'){e.push(`Invalid ${key} row.`);continue;}
+    if(typeof r.id!=='string'||!r.id.trim()||r.id.length>80||ids.has(r.id))e.push(`${key}: missing, duplicate or too-long ID ${String(r.id).slice(0,80)}.`);ids.add(r.id);
+    if(typeof r.material!=='string'||!r.material.trim()||r.material.length>100)e.push(`${r.id}: material is required (max 100 characters).`);
+    for(const k of ['w','h'])if(!finite(r[k])||r[k]<.0001||r[k]>MAX_DIM)e.push(`${r.id}: ${k} must be 0.0001–10,000,000 mm.`);
+    if(!finite(r.thickness)||r.thickness<0||r.thickness>MAX_DIM)e.push(`${r.id}: thickness must be nonnegative.`);
+    if(!['none','x','y'].includes(r.grain))e.push(`${r.id}: invalid grain direction.`);
+    if(key==='Stock'){
+     if(typeof r.unlimited!=='boolean'||typeof r.active!=='boolean')e.push(`${r.id}: invalid inventory flags.`);
+     if(!Number.isInteger(r.qty)||r.qty<0||r.qty>MAX_PARTS)e.push(`${r.id}: stock quantity must be 0–${MAX_PARTS}.`);
+     if(r.cost!==null&&(!finite(r.cost)||r.cost<0||r.cost>1e12))e.push(`${r.id}: cost must be blank or nonnegative.`);
+     if(r.active&&(r.w<=s.left+s.right||r.h<=s.top+s.bottom))e.push(`${r.id}: edge margins consume the entire sheet.`);
+    }else{
+     if(!Number.isInteger(r.qty)||r.qty<1||r.qty>MAX_PARTS)e.push(`${r.id}: part quantity must be 1–${MAX_PARTS}.`);
+     if(typeof r.rotate!=='boolean'||!finite(r.priority)||r.priority<0||r.priority>100)e.push(`${r.id}: invalid rotation or priority (0–100).`);
+     if(typeof r.name!=='string'||r.name.length>150||typeof r.notes!=='string'||r.notes.length>2000)e.push(`${r.id}: invalid name or notes.`);
+     if(typeof r.color!=='string'||!/^#[0-9a-f]{6}$/i.test(r.color))e.push(`${r.id}: color must be a six-digit hex color.`);
+    }
+   }
+  }
+  if(p.parts.reduce((n,r)=>n+(r?.qty||0),0)>MAX_PARTS)e.push(`This browser edition supports at most ${MAX_PARTS.toLocaleString()} physical parts per job. Split larger jobs.`);
+  return e;
+ }
+ function compatible(p,s){return p.material.trim().toLowerCase()===s.material.trim().toLowerCase()&&near(p.thickness,s.thickness);}
+ function orientations(p,s,c){
+  const a=[];for(const rotated of [false,true]){
+   if(rotated&&(!c.rotate||!p.rotate))continue;
+   const direction=rotated?(p.grain==='x'?'y':'x'):p.grain;
+   if(p.grain!=='none'&&(s.grain==='none'||direction!==s.grain))continue;
+   if(rotated&&near(p.w,p.h)&&p.grain==='none')continue;
+   a.push({w:rotated?p.h:p.w,h:rotated?p.w:p.h,rotated});
+  }return a;
+ }
+ function fits(p,s,c){return compatible(p,s)&&orientations(p,s,c).some(o=>o.w<=s.w-c.left-c.right+EPS&&o.h<=s.h-c.top-c.bottom+EPS);}
+ function newBin(stock,c){const g=c.kerf+c.spacing;return {stockId:stock.id,stock:copy(stock),w:stock.w,h:stock.h,placements:[],free:[{x:c.left,y:c.top,w:stock.w-c.left-c.right+g,h:stock.h-c.top-c.bottom+g}],cuts:[]};}
+ function prune(list){
+  list=list.filter(r=>r.w>EPS&&r.h>EPS);
+  for(let i=0;i<list.length;i++)for(let j=i+1;j<list.length;j++){
+   if(contains(list[i],list[j])){list.splice(j--,1);}else if(contains(list[j],list[i])){list.splice(i--,1);break;}
+  }return list;
+ }
+ function splitMax(free,r){
+  const out=[];for(const f of free){
+   if(!overlap(f,r)){out.push(f);continue;}
+   if(r.x>f.x+EPS)out.push({x:f.x,y:f.y,w:r.x-f.x,h:f.h});
+   if(r.x+r.w<f.x+f.w-EPS)out.push({x:r.x+r.w,y:f.y,w:f.x+f.w-r.x-r.w,h:f.h});
+   if(r.y>f.y+EPS)out.push({x:f.x,y:f.y,w:f.w,h:r.y-f.y});
+   if(r.y+r.h<f.y+f.h-EPS)out.push({x:f.x,y:r.y+r.h,w:f.w,h:f.y+f.h-r.y-r.h});
+  }return prune(out);
+ }
+ function contact(bin,r,c){
+  let n=0;const g=c.kerf+c.spacing;
+  if(near(r.x,c.left)||near(r.x+r.w,bin.w-c.right+g))n+=r.h;
+  if(near(r.y,c.top)||near(r.y+r.h,bin.h-c.bottom+g))n+=r.w;
+  for(const p of bin.placements){const q={x:p.x,y:p.y,w:p.w+g,h:p.h+g};
+   if(near(q.x+q.w,r.x)||near(r.x+r.w,q.x))n+=Math.max(0,Math.min(q.y+q.h,r.y+r.h)-Math.max(q.y,r.y));
+   if(near(q.y+q.h,r.y)||near(r.y+r.h,q.y))n+=Math.max(0,Math.min(q.x+q.w,r.x+r.w)-Math.max(q.x,r.x));
+  }return n;
+ }
+ function findPosition(bin,p,c,strategy){
+  const g=c.kerf+c.spacing;let best=null;
+  for(const o of orientations(p,bin.stock,c))for(let fi=0;fi<bin.free.length;fi++){
+   const f=bin.free[fi],w=o.w+g,h=o.h+g;if(w>f.w+EPS||h>f.h+EPS)continue;
+   const dx=Math.max(0,f.w-w),dy=Math.max(0,f.h-h),short=Math.min(dx,dy),long=Math.max(dx,dy),waste=area(f)-w*h;
+   const r={x:f.x,y:f.y,w,h};let score;
+   switch(strategy.fit){case 'BAF':score=[waste,short];break;case 'BLSF':score=[long,short];break;case 'BL':score=[f.y+h,f.x];break;case 'CP':score=[-contact(bin,r,c),waste];break;default:score=[short,long];}
+   score.push(f.y,f.x,o.rotated?1:0);
+   if(!best||lex(score,best.score)<0)best={...r,actualW:o.w,actualH:o.h,rotated:o.rotated,fi,score};
+  }return best;
+ }
+ function place(bin,p,r,c,strategy){
+  if(strategy.family==='guillotine'){
+   const f=bin.free.splice(r.fi,1)[0],dw=f.w-r.w,dh=f.h-r.h;
+   const horizontal=strategy.split==='short'?dw<=dh:strategy.split==='long'?dw>dh:r.w*dh>dw*r.h;
+   if(horizontal){
+    if(dh>EPS){bin.free.push({x:f.x,y:f.y+r.h,w:f.w,h:dh});bin.cuts.push({x1:f.x,y1:f.y+r.h,x2:f.x+f.w,y2:f.y+r.h});}
+    if(dw>EPS){bin.free.push({x:f.x+r.w,y:f.y,w:dw,h:r.h});bin.cuts.push({x1:f.x+r.w,y1:f.y,x2:f.x+r.w,y2:f.y+r.h});}
+   }else{
+    if(dw>EPS){bin.free.push({x:f.x+r.w,y:f.y,w:dw,h:f.h});bin.cuts.push({x1:f.x+r.w,y1:f.y,x2:f.x+r.w,y2:f.y+f.h});}
+    if(dh>EPS){bin.free.push({x:f.x,y:f.y+r.h,w:r.w,h:dh});bin.cuts.push({x1:f.x,y1:f.y+r.h,x2:f.x+r.w,y2:f.y+r.h});}
+   }
+  }else bin.free=splitMax(bin.free,r);
+  bin.placements.push({partId:p.id,instance:p.instance,x:r.x,y:r.y,w:r.actualW,h:r.actualH,rotated:r.rotated});
+ }
+ function rng(seed){let n=seed>>>0;return()=>{n=(1664525*n+1013904223)>>>0;return n/4294967296;};}
+ function strategies(s){
+  const list=[],fits=['BSSF','BAF','BLSF','BL','CP'],orders=['area','long','perimeter','width','random'],policies=['large','small','coverage','cost'];
+  const count={fast:8,balanced:24,thorough:60}[s.effort];
+  for(let i=0;i<count;i++){
+   const family=s.method==='guillotine'?'guillotine':s.method==='maxrects'?'maxrects':i%4===3?'guillotine':'maxrects';
+   const fit=fits[i%5],order=orders[Math.floor(i/3)%5],stock=policies[Math.floor(i/2)%4],split=['short','long','area'][i%3];
+   list.push({family,fit,order,stock,split,seed:7301+i*911,name:`${family==='maxrects'?'MaxRects':'Guillotine'} ${fit} · ${order} · ${stock}${family==='guillotine'?' / '+split:''}`});
+  }return list;
+ }
+ function whyUnplaced(p,stocks,c){
+  const compatibleStocks=stocks.filter(s=>s.active&&compatible(p,s));
+  if(!compatibleStocks.length)return 'No active stock with matching material and thickness.';
+  if(!compatibleStocks.some(s=>orientations(p,s,c).length))return 'Grain direction or rotation restriction prevents placement.';
+  if(!compatibleStocks.some(s=>fits(p,s,c)))return 'Too large for usable stock with current margins and rotation/grain rules.';
+  return 'Available inventory or remaining free space was insufficient in this search.';
+ }
+ async function pack(project,strategy,control){
+  const start=performance.now(),s=project.settings,random=rng(strategy.seed),expanded=[];
+  for(const p of project.parts)for(let i=0;i<p.qty;i++)expanded.push({...p,instance:i+1,random:random()});
+  const score=p=>strategy.order==='long'?Math.max(p.w,p.h):strategy.order==='perimeter'?p.w+p.h:strategy.order==='width'?p.w:strategy.order==='random'?p.random:p.w*p.h;
+  expanded.sort((a,b)=>b.priority-a.priority||score(b)-score(a)||a.id.localeCompare(b.id)||a.instance-b.instance);
+  const bins=[],unplaced=[],usage=new Map();let tick=performance.now();
+  for(let pi=0;pi<expanded.length;pi++){
+   if(control.cancelled())throw new Error('cancelled');
+   if(performance.now()-tick>12){await control.yield();tick=performance.now();if(control.deadline&&tick>control.deadline)throw new Error('budget');}
+   const p=expanded[pi];let best=null;
+   for(let bi=0;bi<bins.length;bi++)if(compatible(p,bins[bi].stock)){
+    const r=findPosition(bins[bi],p,s,strategy);if(r&&(!best||lex(r.score,best.r.score)<0))best={bi,r};
+   }
+   if(!best){
+    let chosen=null;
+    for(const stock of project.stocks){
+     if(!stock.active||(!stock.unlimited&&(usage.get(stock.id)||0)>=stock.qty)||!compatible(p,stock))continue;
+     const bin=newBin(stock,s),r=findPosition(bin,p,s,strategy);if(!r)continue;
+     const a=stock.w*stock.h;let rank;
+     if(strategy.stock==='large')rank=[-a];
+     else if(strategy.stock==='small')rank=[a];
+     else if(strategy.stock==='cost')rank=[stock.cost===null?1:0,stock.cost===null?a:stock.cost/a,a];
+     else{
+      let demand=0;for(let j=pi;j<expanded.length;j++)if(fits(expanded[j],stock,s))demand+=expanded[j].w*expanded[j].h;
+      rank=[a/Math.max(1,Math.min(a,demand)),a];
+     }
+     rank.push(...r.score);
+     if(!chosen||lex(rank,chosen.rank)<0)chosen={bin,r,rank};
+    }
+    if(chosen){const bi=bins.length;bins.push(chosen.bin);usage.set(chosen.bin.stockId,(usage.get(chosen.bin.stockId)||0)+1);best={bi,r:chosen.r};}
+   }
+   if(best)place(bins[best.bi],p,best.r,s,strategy);else unplaced.push({partId:p.id,instance:p.instance,reason:whyUnplaced(p,project.stocks,s)});
+  }
+  bins.forEach((b,i)=>{b.id=i+1;delete b.free;});
+  const solution={strategy:strategy.name,family:strategy.family,bins,unplaced,elapsed:performance.now()-start};
+  solution.metrics=metrics(solution,project);const errors=validateLayout(solution,project);
+  if(errors.length)throw new Error('Geometry validation rejected candidate: '+errors.slice(0,3).join(' '));
+  return solution;
+ }
+ function validateLayout(result,project){
+  const errors=[],s=project.settings,g=s.kerf+s.spacing,parts=new Map(project.parts.map(p=>[p.id,p])),stocks=new Map(project.stocks.map(p=>[p.id,p])),seen=new Set(),used=new Map();
+  for(const bin of result.bins){
+   const st=stocks.get(bin.stockId);if(!st||!st.active){errors.push('Unknown or inactive stock.');continue;}
+   if(!near(bin.w,st.w)||!near(bin.h,st.h))errors.push('Sheet dimensions changed.');
+   used.set(st.id,(used.get(st.id)||0)+1);
+   for(let i=0;i<bin.placements.length;i++){
+    const r=bin.placements[i],p=parts.get(r.partId),key=r.partId+'#'+r.instance;
+    if(!p){errors.push('Unknown part.');continue;}
+    if(seen.has(key)||!Number.isInteger(r.instance)||r.instance<1||r.instance>p.qty)errors.push('Duplicate or invalid instance '+key);seen.add(key);
+    if(!['x','y','w','h'].every(k=>finite(r[k]))||r.w<=0||r.h<=0){errors.push('Invalid coordinates '+key);continue;}
+    if(!compatible(p,st))errors.push('Material mismatch '+key);
+    if(!orientations(p,st,s).some(o=>o.rotated===r.rotated&&near(o.w,r.w)&&near(o.h,r.h)))errors.push('Invalid orientation or finished dimensions '+key);
+    if(r.x<s.left-EPS||r.y<s.top-EPS||r.x+r.w>bin.w-s.right+EPS||r.y+r.h>bin.h-s.bottom+EPS)errors.push('Boundary violation '+key);
+    for(let j=0;j<i;j++){
+     const q=bin.placements[j];if(!(r.x+r.w+g<=q.x+EPS||q.x+q.w+g<=r.x+EPS||r.y+r.h+g<=q.y+EPS||q.y+q.h+g<=r.y+EPS))errors.push('Collision / clearance violation '+key+' and '+q.partId+'#'+q.instance);
+    }
+   }
+  }
+  for(const st of project.stocks)if(!st.unlimited&&(used.get(st.id)||0)>st.qty)errors.push('Inventory exceeded '+st.id);
+  for(const r of result.unplaced){const p=parts.get(r.partId),key=r.partId+'#'+r.instance;if(!p||seen.has(key)||!Number.isInteger(r.instance)||r.instance<1||r.instance>p.qty)errors.push('Invalid unplaced entry '+key);seen.add(key);}
+  if(seen.size!==project.parts.reduce((n,p)=>n+p.qty,0))errors.push('Part quantity accounting mismatch.');
+  return errors;
+ }
+ function sharedLength(placements){
+  let shared=0;
+  for(let i=0;i<placements.length;i++)for(let j=0;j<i;j++){
+   const a=placements[i],b=placements[j];
+   if(near(a.x+a.w,b.x)||near(b.x+b.w,a.x))shared+=Math.max(0,Math.min(a.y+a.h,b.y+b.h)-Math.max(a.y,b.y));
+   if(near(a.y+a.h,b.y)||near(b.y+b.h,a.y))shared+=Math.max(0,Math.min(a.x+a.w,b.x+b.w)-Math.max(a.x,b.x));
+  }return shared;
+ }
+ function metrics(result,p){
+  const s=p.settings;let placedArea=0,gross=0,usable=0,count=0,length=0,cost=0,priced=true,shared=0,splits=0;
+  const eligible=s.kerf===0&&s.spacing===0;
+  for(const bin of result.bins){gross+=bin.w*bin.h;usable+=(bin.w-s.left-s.right)*(bin.h-s.top-s.bottom);if(bin.stock.cost===null)priced=false;else cost+=bin.stock.cost;
+   for(const r of bin.placements){placedArea+=r.w*r.h;count++;length+=2*(r.w+r.h);}
+   if(eligible)shared+=sharedLength(bin.placements);splits+=bin.cuts?.length||0;
+  }
+  const cut=s.common&&eligible?length-shared:length,unused=Math.max(0,gross-placedArea),kerfEstimate=Math.min(unused,length*s.kerf);
+  return {placedArea,gross,usable,count,length,cut,shared,eligible,cost,priced,unused,kerfEstimate,remainingEstimate:Math.max(0,unused-kerfEstimate),margins:gross-usable,utilization:gross?placedArea/gross*100:0,usableUtilization:usable?placedArea/usable*100:0,required:p.parts.reduce((a,r)=>a+r.qty,0),requiredArea:p.parts.reduce((a,r)=>a+r.w*r.h*r.qty,0),sheets:result.bins.length,unplaced:result.unplaced.length,contours:count,pierces:count,segments:count*4,splits,timeMinutes:cut/s.speed+count*s.pierce/60+s.setup};
+ }
+ function objective(result,p){
+  const m=result.metrics,missingArea=m.requiredArea-m.placedArea,base=[m.unplaced,missingArea],s=p.settings;
+  switch(s.objective){
+   case 'sheets':return base.concat(m.sheets,m.gross,m.priced?m.cost:0,m.cut);
+   case 'utilization':return base.concat(m.gross,m.sheets,m.cut);
+   case 'cost':return base.concat(m.cost,m.sheets,m.gross,m.cut);
+   case 'cut':return base.concat(m.cut,m.sheets,m.gross);
+   default:return base.concat(m.gross*(1+.08*m.sheets),m.sheets,m.cut,m.priced?m.cost:0);
+  }
+ }
+ async function solve(project,control={}){
+  const errors=validateProject(project);if(errors.length)throw new Error(errors.join('\n'));
+  if(!project.parts.length)throw new Error('Add at least one part before optimizing.');
+  if(!project.stocks.some(s=>s.active))throw new Error('Add or activate a stock sheet before optimizing.');
+  if(project.settings.objective==='cost'&&project.stocks.some(s=>s.active&&s.cost===null))throw new Error('Cost optimization requires a price for every active stock type.');
+  const c={yield:()=>new Promise(r=>setTimeout(r,0)),cancelled:()=>false,progress:()=>{},...control};
+  const start=performance.now(),budget={fast:5000,balanced:15000,thorough:45000}[project.settings.effort],list=strategies(project.settings),candidates=[],rows=[];let completed=0,stopReason='complete';
+  for(let i=0;i<list.length;i++){
+   if(c.cancelled()){stopReason='cancelled';break;}
+   if(i&&performance.now()-start>budget){stopReason='time budget';break;}
+   c.progress({done:i,total:list.length,strategy:list[i].name});
+   try{
+    const result=await pack(project,list[i],{...c,deadline:i?start+budget:0});completed++;
+    result.key='candidate-'+i;rows.push({key:result.key,strategy:result.strategy,metrics:result.metrics,elapsed:result.elapsed});candidates.push(result);
+    candidates.sort((a,b)=>lex(objective(a,project),objective(b,project)));if(candidates.length>8)candidates.pop();
+   }catch(e){if(e.message==='budget'||e.message==='cancelled'){stopReason=e.message==='budget'?'time budget':'cancelled';break;}throw e;}
+   await c.yield();
+  }
+  c.progress({done:completed,total:list.length,strategy:'Complete'});
+  return {candidates,rows,completed,attempts:list.length,elapsed:performance.now()-start,stopReason};
+ }
+ /* Disjoint subtraction for offcut estimates, independent of MaxRects free nodes. */
+ function subtract(f,r){
+  if(!overlap(f,r))return [f];const x=Math.max(f.x,r.x),y=Math.max(f.y,r.y),right=Math.min(f.x+f.w,r.x+r.w),bottom=Math.min(f.y+f.h,r.y+r.h),out=[];
+  if(y>f.y+EPS)out.push({x:f.x,y:f.y,w:f.w,h:y-f.y});
+  if(bottom<f.y+f.h-EPS)out.push({x:f.x,y:bottom,w:f.w,h:f.y+f.h-bottom});
+  if(x>f.x+EPS)out.push({x:f.x,y,w:x-f.x,h:bottom-y});
+  if(right<f.x+f.w-EPS)out.push({x:right,y,w:f.x+f.w-right,h:bottom-y});return out;
+ }
+ function offcuts(bin,s){
+  let free=[{x:s.left,y:s.top,w:bin.w-s.left-s.right,h:bin.h-s.top-s.bottom}];const pad=s.kerf+s.spacing/2;
+  for(const r of bin.placements){const exclude={x:r.x-pad,y:r.y-pad,w:r.w+2*pad,h:r.h+2*pad};free=free.flatMap(f=>subtract(f,exclude));}
+  return free.sort((a,b)=>area(b)-area(a));
+ }
+ return {EPS,MAX_PARTS,defaults,validateProject,validateLayout,compatible,orientations,fits,solve,pack,strategies,metrics,objective,sharedLength,offcuts,overlap,splitMax,subtract,lex};
+}
+const Engine=createEngine();
+</script>
+
+<script>
+'use strict';
+const $=id=>document.getElementById(id), clone=x=>JSON.parse(JSON.stringify(x));
+const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid=()=>globalThis.crypto?.randomUUID?.()||'p-'+Date.now()+'-'+Math.random().toString(36).slice(2);
+const COLORS=['#78baca','#d9ab6e','#9cadde','#9ec28b','#d599a8','#b4a2cc','#d4c877','#7ac4b1'];
+const UNIT={mm:1,cm:10,in:25.4};
+const Storage={workspace:'sheetcut.workspace.v1',library:'sheetcut.library.v1',defaults:'sheetcut.defaults.v1',get(k,fallback){try{const t=localStorage.getItem(k);return t?JSON.parse(t):fallback;}catch(e){storageWarning('Local storage could not be read. Use JSON backups.');return fallback;}},put(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true;}catch(e){storageWarning('Local storage is unavailable or full. Export JSON to keep this project.');return false;}}};
+let storageFailed=false;
+function storageWarning(msg){storageFailed=true;$('storageStatus').textContent=msg;$('storageStatus').className='warning';}
+function makePart(id,w,h,qty,other={}){return {id,name:id,w,h,qty,material:'Mild steel',thickness:2,rotate:true,grain:'none',priority:0,color:COLORS[0],notes:'',...other};}
+function makeStock(id,w,h,other={}){return {id,w,h,material:'Mild steel',thickness:2,qty:1,unlimited:true,cost:null,grain:'none',active:true,...other};}
+function emptyProject(){let settings=Engine.defaults();const d=Storage.get(Storage.defaults,null);if(d&&typeof d==='object')settings={...settings,...d};const p={version:1,id:uid(),name:'Untitled cutting job',stocks:[],parts:[],settings};if(Engine.validateProject(p).length)p.settings=Engine.defaults();return p;}
+function exampleProject(){const p={version:1,id:uid(),name:'Workshop enclosure · example',settings:Engine.defaults(),stocks:[makeStock('ST-2500',2500,1250,{cost:92,qty:4,unlimited:false}),makeStock('ST-2000',2000,1000,{cost:64,qty:3,unlimited:false})],parts:[makePart('P-01',620,420,6,{name:'Side panel',color:COLORS[0]}),makePart('P-02',800,300,4,{name:'Rear panel',color:COLORS[1]}),makePart('P-03',410,280,8,{name:'Door blank',color:COLORS[2]}),makePart('P-04',240,160,12,{name:'Mounting plate',color:COLORS[3]}),makePart('P-05',580,90,6,{name:'Cross member',color:COLORS[4]})]};return p;}
+let project=exampleProject(), result=null, search=null, sheetIndex=0, view='detail', reportTab='sheets',selected=null,zoom=1,pan={x:0,y:0},worker=null,running=false,cancelRequested=false,runSerial=0,history=[],future=[],toastTimer,saveTimer,offcutCache=new WeakMap();
+function f(n,precision=project.settings.precision){return Number(n).toLocaleString('en-US',{maximumFractionDigits:precision,minimumFractionDigits:0});}
+function dim(n){return f(n/UNIT[project.settings.unit]);}
+function dimension(n){return dim(n)+' '+project.settings.unit;}
+function areaText(n){return project.settings.unit==='in'?f(n/645.16)+' in²':f(n/1e6,4)+' m²';}
+function lengthText(n){return project.settings.unit==='in'?f(n/25.4)+' in':f(n/1000,3)+' m';}
+function timeText(n){return n<1?f(n*60,1)+' sec':f(n,2)+' min';}
+function money(n){return f(n,2);}
+function notify(msg,error=false){clearTimeout(toastTimer);$('toast').textContent=msg;$('toast').className='toast'+(error?' error':'');$('toast').hidden=false;toastTimer=setTimeout(()=>$('toast').hidden=true,error?9000:4500);}
+function status(msg){$('status').textContent=msg;}
+function persist(){clearTimeout(saveTimer);saveTimer=setTimeout(()=>{if(Storage.put(Storage.workspace,project)&&!storageFailed)$('storageStatus').textContent='Workspace autosaved · '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});},250);}
+function snapshot(){return {project:clone(project),result:result?clone(result):null};}
+function checkpoint(){history.push(snapshot());if(history.length>40)history.shift();future=[];}
+function restore(s){cancelRun(true);project=s.project;result=s.result;search=null;selected=null;sheetIndex=0;zoom=1;pan={x:0,y:0};offcutCache=new WeakMap();render();persist();}
+function undo(){if(!history.length)return;future.push(snapshot());restore(history.pop());status('Undo applied.');}
+function redo(){if(!future.length)return;history.push(snapshot());restore(future.pop());status('Redo applied.');}
+function invalidate(){cancelRun(true);result=null;search=null;selected=null;offcutCache=new WeakMap();zoom=1;pan={x:0,y:0};}
+function commit(mutator){checkpoint();mutator();invalidate();render();persist();}
+function replaceProject(p){const e=Engine.validateProject(p);if(e.length)throw new Error(e.join('\n'));checkpoint();invalidate();project=clone(p);sheetIndex=0;render();persist();status('Project loaded. Optimize to calculate a fresh validated layout.');}
+function options(list,value){return list.map(([v,l])=>`<option value="${esc(v)}" ${v===value?'selected':''}>${esc(l)}</option>`).join('');}
+function field(label,name,value,type='number',extra=''){return `<label class="field">${esc(label)}<input name="${esc(name)}" type="${type}" value="${esc(value)}" ${type==='number'?'step="any"':''} ${extra}></label>`;}
+function selectField(label,name,list,value){return `<label class="field">${esc(label)}<select name="${name}">${options(list,value)}</select></label>`;}
+function checkField(label,name,value){return `<label class="check"><input name="${name}" type="checkbox" ${value?'checked':''}>${esc(label)}</label>`;}
+const grainOptions=[['none','No grain constraint'],['x','Along width (X)'],['y','Along height (Y)']];
+function renderInputs(){
+ $('projectName').value=project.name;$('stockCount').textContent=project.stocks.length+' types';$('partCount').textContent=project.parts.length+' types';
+ $('stockList').innerHTML=project.stocks.length?project.stocks.map((s,i)=>`<div class="stock-item ${s.active?'':'inactive'}"><div class="row between"><strong>${esc(s.id)}</strong><span class="mono">${dim(s.w)} × ${dim(s.h)} <small>${project.settings.unit}</small></span></div><div class="sub">${esc(s.material)} · ${dimension(s.thickness)} · ${s.unlimited?'Unlimited stock':s.qty+' available'}${s.active?'':' · Inactive'}</div><div class="stock-actions"><button data-edit-stock="${i}">Edit</button><button data-copy-stock="${i}">Duplicate</button><button data-toggle-stock="${i}">${s.active?'Deactivate':'Activate'}</button><button data-delete-stock="${i}" aria-label="Delete stock ${esc(s.id)}">Delete</button><span style="margin-left:auto" class="hint">${s.cost===null?'Unpriced':money(s.cost)+' / sheet'}</span></div></div>`).join(''):'<p class="hint">Add the sheets available in your workshop.</p>';
+ renderParts();const s=project.settings,u=s.unit;
+ $('cutSettings').innerHTML=['kerf','spacing','left','right','top','bottom'].map(k=>`<label class="field">${({kerf:'Cutting kerf',spacing:'Extra spacing',left:'Left margin',right:'Right margin',top:'Top margin',bottom:'Bottom margin'})[k]} (${u})<input type="number" min="0" step="any" data-setting="${k}" value="${s[k]/UNIT[u]}"></label>`).join('')+`<label class="check field full"><input type="checkbox" data-setting="rotate" ${s.rotate?'checked':''}>Allow permitted 90° rotations</label><label class="check field full"><input type="checkbox" data-setting="common" ${s.common?'checked':''}>Common-line length estimate</label>`;
+ $('optSettings').innerHTML=selectField('Packing method','method',[['auto','Compare MaxRects + Guillotine'],['maxrects','MaxRects only'],['guillotine','Guillotine only']],s.method)+selectField('Optimization objective','objective',[['balanced','Balanced material + sheet count'],['sheets','Minimize sheet count'],['utilization','Maximize utilization'],['cost','Minimize stock cost'],['cut','Minimize estimated cut length']],s.objective)+selectField('Search effort','effort',[['fast','Fast · up to 8 attempts'],['balanced','Balanced · up to 24 attempts'],['thorough','Thorough · up to 60 attempts']],s.effort)+`<p class="hint">Material and thickness are always matched. Priority determines placement order. The best layout found is not a proof of optimality.</p>`;
+ $('optSettings').querySelectorAll('select').forEach(el=>el.dataset.setting=el.name);
+}
+function renderParts(){
+ const filter=$('partSearch').value.toLowerCase(),parts=project.parts;
+ $('partSummary').innerHTML=`<span>${parts.reduce((n,p)=>n+p.qty,0)} requested pieces</span><span>${areaText(parts.reduce((n,p)=>n+p.w*p.h*p.qty,0))} required</span>`;
+ $('partRows').innerHTML=parts.map((p,i)=>({p,i})).filter(({p})=>(p.id+' '+p.name).toLowerCase().includes(filter)).map(({p,i})=>`<tr><td><button class="cell-edit" data-edit-part="${i}" title="Edit ${esc(p.name)}"><span class="swatch" style="background:${p.color}"></span>${esc(p.id)}</button></td><td><input type="number" step="any" min="0.0001" data-part="${i}" data-key="w" value="${p.w/UNIT[project.settings.unit]}" aria-label="${esc(p.id)} width"></td><td><input type="number" step="any" min="0.0001" data-part="${i}" data-key="h" value="${p.h/UNIT[project.settings.unit]}" aria-label="${esc(p.id)} height"></td><td><input class="qty" type="number" min="1" step="1" data-part="${i}" data-key="qty" value="${p.qty}" aria-label="${esc(p.id)} quantity"></td><td><input type="checkbox" data-part="${i}" data-key="rotate" ${p.rotate?'checked':''} aria-label="${esc(p.id)} allow rotation"></td></tr>`).join('')||'<tr><td colspan="5" class="muted">No matching parts.</td></tr>';
+}
+function focusSelector(){const e=document.activeElement;if(!e||$('modal').contains(e))return null;if(e.dataset.part!==undefined)return `[data-part="${e.dataset.part}"][data-key="${e.dataset.key}"]`;if(e.dataset.setting)return `[data-setting="${e.dataset.setting}"]`;if(e.dataset.action)return `[data-action="${e.dataset.action}"]`;if(e.id)return '#'+CSS.escape(e.id);return null;}
+function restoreFocus(selector){if(selector)document.querySelector(selector)?.focus({preventScroll:true});}
+function syncPressed(){document.querySelectorAll('[data-pane], [data-report], #detailView, #overviewView, [data-action="grid"], [data-action="offcuts"]').forEach(e=>{if(e.tagName==='BUTTON')e.setAttribute('aria-pressed',String(e.classList.contains('active')));});}
+function render(){const focused=focusSelector();document.body.classList.toggle('light',project.settings.theme==='light');renderInputs();renderOutput();$('undo').disabled=!history.length;$('redo').disabled=!future.length;restoreFocus(focused);}
+function renderOutput(){
+ const focused=focusSelector();
+ $('sheetSelect').innerHTML=result?.bins.length?result.bins.map((b,i)=>`<option value="${i}" ${i===sheetIndex?'selected':''}>Sheet ${i+1} · ${esc(b.stockId)}</option>`).join(''):'<option>No allocated sheets</option>';
+ $('sheetSelect').disabled=!result?.bins.length;$('detailView').classList.toggle('active',view==='detail');$('overviewView').classList.toggle('active',view==='overview');
+ $('planMeta').textContent=result?`${result.strategy} · ${result.bins.length} sheets`:'Enter stock and parts, then optimize the layout';
+ $('validationBadge').innerHTML=result?'<span class="badge">Geometry validated</span>':`Dimensions in ${project.settings.unit}`;
+ renderStage();renderResults();renderReport();syncPressed();restoreFocus(focused);
+}
+function getOffcuts(bin){if(!offcutCache.has(bin))offcutCache.set(bin,Engine.offcuts(bin,project.settings));return offcutCache.get(bin);}
+function partColor(p){if(project.settings.palette==='bright'){const i=project.parts.indexOf(p);return ['#69c9da','#efb25b','#a6b1fa','#a7d870','#f39eae','#c9a7ef'][i%6];}return p.color;}
+function sheetMarkup(bin,{annotations=true,interactive=false,cutOnly=false,exporting=false}={}){
+ const s=project.settings,pad=annotations?Math.max(bin.w,bin.h)*.065:0,vb=[-pad,-pad,bin.w+pad*2,bin.h+pad*2],font=Math.max(bin.w,bin.h)/85;
+ const map=new Map(project.parts.map(p=>[p.id,p]));
+ let body=`<title>${esc(project.name)} — Sheet ${bin.id}, ${esc(bin.stock.material)}</title><desc>Finished rectangles in millimeters. Origin top left; X right, Y down. Design geometry only; CAM compensation, lead-ins and machine validation required.</desc>`;
+ if(!cutOnly){body+=`<rect x="0" y="0" width="${bin.w}" height="${bin.h}" fill="#edf2f4" stroke="#8394a0" stroke-width="1" vector-effect="non-scaling-stroke"/>`;
+  body+=`<rect x="${s.left}" y="${s.top}" width="${bin.w-s.left-s.right}" height="${bin.h-s.top-s.bottom}" fill="#fafcfc" stroke="#8798a5" stroke-dasharray="5 4" stroke-width="1" vector-effect="non-scaling-stroke"/>`;
+  if(s.grid&&!exporting){const step=Math.pow(10,Math.floor(Math.log10(Math.max(bin.w,bin.h)/12)));body+=`<defs><pattern id="grid-${bin.id}" width="${step}" height="${step}" patternUnits="userSpaceOnUse"><path d="M ${step} 0 H 0 V ${step}" fill="none" stroke="#a1b1bf" stroke-opacity=".3" stroke-width=".5" vector-effect="non-scaling-stroke"/></pattern></defs><rect width="${bin.w}" height="${bin.h}" fill="url(#grid-${bin.id})"/>`;}
+  if(s.offcuts&&!exporting)for(const o of getOffcuts(bin).slice(0,250))body+=`<rect x="${o.x}" y="${o.y}" width="${o.w}" height="${o.h}" fill="#cce0d9" stroke="#7eaa99" stroke-width=".5" vector-effect="non-scaling-stroke"><title>Potential offcut ${dimension(o.w)} × ${dimension(o.h)}; estimate</title></rect>`;
+ }
+ body+=`<g id="finished-part-geometry" data-units="mm" fill="none" stroke="#000">`;
+ bin.placements.forEach((r,i)=>{
+  const p=map.get(r.partId);if(!p)return;
+  const active=selected&&selected.partId===r.partId,small=Math.min(r.w,r.h),labelSize=Math.min(font,small*.22),label=annotations&&(exporting?s.exportLabels:s.labels);
+  const title=`${p.id} #${r.instance} · ${p.name}\n${dimension(r.w)} × ${dimension(r.h)}\nX ${dimension(r.x)}, Y ${dimension(r.y)} · ${r.rotated?'90°':'0°'}\n${p.material} · ${dimension(p.thickness)}`;
+  body+=`<g id="part-${bin.id}-${i}" class="part ${active?'selected':''}" ${interactive?`data-placement="${i}" tabindex="0" role="button" aria-label="${esc(title)}"`:''} data-part-id="${esc(p.id)}" data-instance="${r.instance}"><title>${esc(title)}</title>`;
+  if(s.showKerf&&!cutOnly&&s.kerf>0)body+=`<rect x="${r.x-s.kerf/2}" y="${r.y-s.kerf/2}" width="${r.w+s.kerf}" height="${r.h+s.kerf}" fill="none" stroke="#c54444" stroke-width="${s.kerf}"/>`;
+  body+=`<rect class="face" x="${r.x}" y="${r.y}" width="${r.w}" height="${r.h}" fill="${cutOnly?'none':partColor(p)}" stroke="${cutOnly?'#000':'#476477'}" stroke-width="${cutOnly?.1:.65}" ${cutOnly?'':'vector-effect="non-scaling-stroke"'}/>`;
+  if(label&&!cutOnly){body+=`<g class="annotation" fill="#152632" stroke="none" text-anchor="middle" pointer-events="none"><text x="${r.x+r.w/2}" y="${r.y+r.h/2-labelSize*.2}" font-family="Arial,sans-serif" font-size="${labelSize}" font-weight="600">${esc(p.id)}${r.rotated?' ↻':''}</text><text x="${r.x+r.w/2}" y="${r.y+r.h/2+labelSize*1.05}" font-family="Arial,sans-serif" font-size="${labelSize*.72}">${dim(r.w)} × ${dim(r.h)}</text></g>`;}
+  body+='</g>';
+ });body+='</g>';
+ if(annotations&&!cutOnly){body+=`<g id="sheet-annotations" fill="#8fabbf" stroke="none" font-size="${font*.75}" font-family="Arial,sans-serif" text-anchor="middle"><text x="${bin.w/2}" y="${-pad*.38}">${dimension(bin.w)}</text><text transform="translate(${-pad*.38} ${bin.h/2}) rotate(-90)">${dimension(bin.h)}</text></g>`;
+  if(s.ruler&&!exporting){const step=Math.pow(10,Math.floor(Math.log10(Math.max(bin.w,bin.h)/6)));body+='<g stroke="#7c98ac" stroke-width="1" vector-effect="non-scaling-stroke">';for(let x=0;x<=bin.w;x+=step)body+=`<path d="M${x} ${-pad*.08}v${-pad*.13}"/>`;for(let y=0;y<=bin.h;y+=step)body+=`<path d="M${-pad*.08} ${y}h${-pad*.13}"/>`;body+='</g>';}
+ }
+ return {body,vb,pad};
+}
+function renderStage(){
+ const focused=focusSelector(),stage=$('stage');
+ if(!result?.bins.length){stage.innerHTML=`<div class="empty"><div><svg width="62" height="62" viewBox="0 0 64 64" style="height:62px;margin:auto" aria-hidden="true"><path d="M8 8h48v48H8zM8 29h48M33 8v48" fill="none" stroke="var(--muted)" stroke-width="1.5"/></svg><h2>${result?'No parts could be placed':'Your next cut starts here'}</h2><p>${result?'Check the Unplaced report for material, size and inventory constraints.':'Define your stock and finished parts, then compare validated cutting layouts. The loaded workshop job is an editable example.'}</p><button class="primary" data-action="optimize">Optimize layout</button></div></div>`;return;}
+ sheetIndex=Math.min(sheetIndex,result.bins.length-1);
+ if(view==='overview'){
+  stage.innerHTML='<div class="overview">'+result.bins.map((b,i)=>{const a=b.placements.reduce((n,r)=>n+r.w*r.h,0),m=sheetMarkup(b,{annotations:false});return `<button class="sheet-card" data-sheet="${i}"><div class="row between"><strong>Sheet ${i+1}</strong><span>${f(a/b.w/b.h*100,1)}% used</span></div><svg viewBox="${m.vb.join(' ')}" aria-hidden="true">${m.body}</svg><div class="row between"><span>${esc(b.stockId)}</span><span>${b.placements.length} parts</span></div><div class="hint">${dim(b.w)} × ${dim(b.h)} ${project.settings.unit} · ${esc(b.stock.material)}</div></button>`;}).join('')+'</div>';return;
+ }
+ const b=result.bins[sheetIndex],m=sheetMarkup(b,{interactive:true});stage.innerHTML=`<svg class="sheet-svg" id="planSvg" xmlns="http://www.w3.org/2000/svg" viewBox="${m.vb.join(' ')}" aria-label="Sheet ${sheetIndex+1} cutting plan"><g id="viewTransform">${m.body}</g></svg><div class="canvas-controls"><button data-action="zoomOut" aria-label="Zoom out">−</button><button data-action="fit">Fit</button><button data-action="zoomIn" aria-label="Zoom in">+</button><button data-action="grid" class="${project.settings.grid?'active':''}">Grid</button><button data-action="offcuts" class="${project.settings.offcuts?'active':''}">Offcuts</button></div><div class="canvas-note">Scroll to zoom · drag background to pan · click a part to inspect</div>`;applyView();syncPressed();restoreFocus(focused);
+}
+function applyView(){const b=result?.bins[sheetIndex];if(!b||!$('viewTransform'))return;$('viewTransform').setAttribute('transform',`translate(${b.w/2+pan.x} ${b.h/2+pan.y}) scale(${zoom}) translate(${-b.w/2} ${-b.h/2})`);updateLabelVisibility();}
+function updateLabelVisibility(){const svg=$('planSvg');if(!svg)return;const scale=(svg.getScreenCTM()?.a||1)*zoom;svg.querySelectorAll('.annotation text').forEach(t=>{const pixels=Number(t.getAttribute('font-size'))*scale;t.style.display=pixels<8?'none':'';});}
+function metricRow(label,value,cls=''){return `<div class="metric-row ${cls}"><span>${label}</span><strong>${value}</strong></div>`;}
+function renderResults(){
+ if(!result){$('results').innerHTML=`<section class="section"><h2>Production summary</h2><div style="padding:30px 0"><p class="muted">Run optimization to calculate material use, stock consumption and cutting estimates.</p></div><p class="hint">Every accepted layout is checked for collisions, edge margins, inventory, material, grain and quantity.</p></section><section class="section"><h3>Offline by design</h3><p class="hint" style="margin-top:10px">Work is autosaved in this browser. Export project JSON for a portable backup.</p></section>`;return;}
+ const m=result.metrics,s=project.settings;
+ $('results').innerHTML=`<section class="section"><div class="section-title"><h2>Material efficiency</h2><span class="badge">Best found</span></div><div class="metric-lead"><strong>${f(m.utilization,1)}<small style="font-size:21px">%</small></strong><span>GROSS UTILIZATION</span></div><div class="util-bar" role="img" aria-label="${f(m.utilization,1)} percent utilization"><i style="width:${m.utilization}%"></i></div><div class="row between hint"><span>Finished parts</span><span>${f(m.gross?100-m.utilization:0,1)}% unused</span></div>${metricRow('Sheets allocated',m.sheets)}${metricRow('Parts placed',m.count+' / '+m.required)}${metricRow('Unplaced',m.unplaced,m.unplaced?'warning':'')}${metricRow('Gross sheet area',areaText(m.gross))}${metricRow('Finished part area',areaText(m.placedArea))}${metricRow('Gross unused area',areaText(m.unused))}${metricRow('Usable utilization',f(m.usableUtilization,1)+'%')}${metricRow('Reserved margins',areaText(m.margins))}${metricRow('Stock cost',m.priced?money(m.cost):money(m.cost)+' + unpriced')}<p class="hint" style="margin-top:10px">Cost uses your currency consistently. Unused area includes margins, kerf and remaining material.</p></section>
+ <section class="section"><h2>Laser cutting estimate</h2>${metricRow('Independent contours',lengthText(m.length))}${metricRow('Shared edge savings',s.common&&m.eligible?lengthText(m.shared):'Not applied')}${metricRow('Selected cut length',lengthText(m.cut))}${metricRow('Part contours',m.contours)}${metricRow('Estimated pierces',m.pierces)}${metricRow('Contour line segments',m.segments)}${result.family==='guillotine'?metricRow('Partition splits',m.splits):''}${metricRow('Estimated duration',timeText(m.timeMinutes))}<p class="hint" style="margin-top:10px">${s.common&&!m.eligible?'Common-line unavailable: kerf and spacing must both be zero. ':''}One pierce per contour; no lead-ins or rapid travel included. ${result.family==='guillotine'?'Partition splits are not an exact machine cut count.':''}</p><button class="small" id="laserSettings" style="margin-top:12px">Edit cutting rates</button></section>
+ <section class="section"><h2>Material accounting</h2>${metricRow('Kerf loss estimate',areaText(m.kerfEstimate))}${metricRow('Remaining estimate',areaText(m.remainingEstimate))}<p class="hint" style="margin-top:10px">Kerf estimate = nominal perimeter × kerf, capped at unused area. Edge clipping and overlapping kerf bands are not resolved. Remaining estimate includes reserved margins. Offcuts are conservative rectangles, not certified recoverable inventory.</p></section>
+ <section class="section"><h2>Part inspector</h2><div id="inspector"></div></section>`;renderInspector();
+}
+function renderInspector(){
+ const badge=$('results').querySelector('.badge');if(badge&&result)badge.textContent=result.family==='manual'?'Manual':search?(result.key===search.candidates[0]?.key?'Best found':'Alternative'):'Validated';
+ const el=$('inspector');if(!el)return;const b=result?.bins[selected?.sheet],r=b?.placements[selected?.index],p=project.parts.find(p=>p.id===r?.partId);
+ if(!r||!p){el.innerHTML='<p class="hint" style="margin-top:12px">Select any part in the layout. All copies of that part type will be highlighted.</p>';return;}
+ el.innerHTML=`<div class="selected-info"><h3><span class="swatch" style="background:${p.color}"></span>${esc(p.id)} <small>#${r.instance}</small></h3><p class="hint">${esc(p.name)} · ${esc(p.material)} · ${dimension(p.thickness)}</p>${metricRow('Finished size',dim(r.w)+' × '+dim(r.h)+' '+project.settings.unit)}${metricRow('Orientation',r.rotated?'90°':'0°')}${metricRow('Sheet',selected.sheet+1)}<div class="fields">${field('X ('+project.settings.unit+')','moveX',r.x/UNIT[project.settings.unit])}${field('Y ('+project.settings.unit+')','moveY',r.y/UNIT[project.settings.unit])}</div><div class="row wrap"><button class="small" id="movePart">Apply position</button><button class="small" id="rotatePart">Rotate 90°</button></div><p class="hint" style="margin-top:9px">${result.family==='guillotine'?'Manual edits are disabled for guillotine plans to preserve their slicing structure.':'Origin: top-left sheet corner. Invalid moves are rejected.'}</p>${p.notes?`<p class="hint" style="margin-top:8px">${esc(p.notes)}</p>`:''}</div>`;
+ if(result.family==='guillotine'){el.querySelectorAll('button,input').forEach(e=>e.disabled=true);}
+}
+function table(headers,rows){return `<div class="table-scroll"><table><thead><tr>${headers.map(h=>`<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${rows.length?rows.map(row=>'<tr>'+row.map(x=>`<td>${x}</td>`).join('')+'</tr>').join(''):`<tr><td colspan="${headers.length}" class="muted">No entries.</td></tr>`}</tbody></table></div>`;}
+function renderReport(){
+ document.querySelectorAll('[data-report]').forEach(b=>{b.classList.toggle('active',b.dataset.report===reportTab);b.setAttribute('aria-pressed',String(b.dataset.report===reportTab));});const el=$('report');
+ if(!result){el.innerHTML='<p class="hint">Computed sheet statistics, placements and strategy comparisons will appear here.</p>';return;}
+ if(reportTab==='sheets')el.innerHTML=table(['Sheet / stock','Material','Size ('+project.settings.unit+')','Parts','Utilization','Unused','Cost'],result.bins.map((b,i)=>{const a=b.placements.reduce((n,r)=>n+r.w*r.h,0);return [`<button class="small quiet" data-sheet="${i}">${i+1} / ${esc(b.stockId)}</button>`,esc(b.stock.material)+' / '+dimension(b.stock.thickness),dim(b.w)+' × '+dim(b.h),b.placements.length,f(a/b.w/b.h*100,2)+'%',areaText(b.w*b.h-a),b.stock.cost===null?'Unpriced':money(b.stock.cost)];}));
+ else if(reportTab==='placements')el.innerHTML=table(['Sheet','Part','Copy','X ('+project.settings.unit+')','Y','Width','Height','Rotation'],result.bins.flatMap((b,bi)=>b.placements.map((r,ri)=>[bi+1,`<button class="small quiet" data-select-placement="${bi},${ri}">${esc(r.partId)}</button>`,r.instance,dim(r.x),dim(r.y),dim(r.w),dim(r.h),r.rotated?'90°':'0°'])));
+ else if(reportTab==='unplaced'){
+  const groups=new Map();for(const u of result.unplaced){const key=u.partId+'|'+u.reason;if(!groups.has(key))groups.set(key,{...u,qty:0});groups.get(key).qty++;}
+  el.innerHTML=result.unplaced.length?table(['Part','Quantity','Reason'],[...groups.values()].map(u=>[esc(u.partId),u.qty,esc(u.reason)])):'<p style="color:var(--accent)">All requested parts were placed successfully.</p>';
+ }else if(reportTab==='comparison'){
+  el.innerHTML=search?`<p class="hint" style="margin-bottom:8px">${search.completed} / ${search.attempts} attempts · ${f(search.elapsed,0)} ms · ${esc(search.stopReason)}. Eight highest-ranked layouts retained for switching. All rows are validated; fewer unplaced parts always ranks first.</p>`+table(['Layout','Strategy','Sheets','Placed','Utilization','Unused','Cut length','Cost','Time'],search.rows.map(r=>[search.candidates.some(c=>c.key===r.key)?`<button class="small ${result.key===r.key?'active':''}" data-candidate="${r.key}">${result.key===r.key?'Selected':'Use layout'}</button>`:'Summary only',esc(r.strategy),r.metrics.sheets,r.metrics.count,f(r.metrics.utilization,2)+'%',areaText(r.metrics.unused),lengthText(r.metrics.cut),r.metrics.priced?money(r.metrics.cost):'Unpriced',f(r.elapsed,0)+' ms'])):'<p class="hint">Run optimization to compare strategies. Manual edits and undo retain the active layout only.</p>';
+ }else if(reportTab==='offcuts')el.innerHTML='<p class="hint" style="margin-bottom:8px">Conservative disjoint rectangles outside kerf/spacing exclusion zones. Reusability and extraction cuts require review. Small strips are included; dimensions are estimates of clear material.</p>'+table(['Sheet','X','Y','Width','Height','Area'],result.bins.flatMap((b,i)=>getOffcuts(b).map(r=>[i+1,dim(r.x),dim(r.y),dimension(r.w),dimension(r.h),areaText(r.w*r.h)])));
+ else if(reportTab==='inventory')el.innerHTML=table(['Stock','Status','Available','Used','Remaining'],project.stocks.map(s=>{const used=result.bins.filter(b=>b.stockId===s.id).length;return [esc(s.id),s.active?'Active':'Inactive',s.unlimited?'Unlimited':s.qty,used,s.unlimited?'Unlimited':s.qty-used];}));
+}
+function openModal(title,body,foot='',wide=false){$('modalTitle').textContent=title;$('modalBody').innerHTML=body;$('modalFoot').innerHTML=foot;$('modal').classList.toggle('wide',wide);if(!$('modal').open)$('modal').showModal();}
+function formError(msg){const e=$('formError');if(e)e.textContent=msg;else notify(msg,true);}
+function nextId(prefix,rows){let n=1;while(rows.some(r=>r.id===prefix+String(n).padStart(2,'0')))n++;return prefix+String(n).padStart(2,'0');}
+function editRow(kind,index=-1){
+ const isStock=kind==='stock',rows=isStock?project.stocks:project.parts,existing=index>=0,base=rows[index],stock=project.stocks.find(s=>s.active),r=base?clone(base):isStock?makeStock(nextId('ST-',rows),2500,1250):makePart(nextId('P-',rows),300,200,1,{material:stock?.material||'Mild steel',thickness:stock?.thickness??2,color:COLORS[rows.length%COLORS.length]});const unit=UNIT[project.settings.unit],u=project.settings.unit;
+ let body='<div id="formError" class="form-error" role="alert"></div><form id="rowForm"><div class="fields">'+field('Unique ID','id',r.id,'text','required maxlength="80"')+field('Material','material',r.material,'text','required maxlength="100"')+field('Width ('+u+')','w',r.w/unit)+field('Height ('+u+')','h',r.h/unit)+field('Thickness ('+u+')','thickness',r.thickness/unit)+field(isStock?'Available quantity':'Required quantity','qty',r.qty,'number','step="1"')+selectField('Grain direction','grain',grainOptions,r.grain);
+ if(isStock)body+=field('Cost per sheet (optional)','cost',r.cost??'')+checkField('Unlimited availability','unlimited',r.unlimited)+checkField('Active stock','active',r.active);
+ else body+=field('Part name','name',r.name,'text','maxlength="150"')+field('Priority (0–100)','priority',r.priority)+field('Part color','color',r.color,'color')+checkField('Allow 90° rotation','rotate',r.rotate)+`<label class="field full">Notes<textarea name="notes" rows="3" maxlength="2000">${esc(r.notes)}</textarea></label><p class="hint field full">Area each: ${areaText(r.w*r.h)} · Total: ${areaText(r.w*r.h*r.qty)}. Grain X/Y is relative to the original part dimensions and must match stock grain after rotation.</p>`;
+ body+='</div><button type="submit" hidden></button></form>';
+ openModal((existing?'Edit ':'Add ')+(isStock?'material sheet':'part'),body,`${existing&&!isStock?'<button id="duplicateRow">Duplicate</button><button id="deleteRow" class="danger">Delete</button>':''}<button id="cancelModal">Cancel</button><button id="submitRow" class="primary">${existing?'Apply changes':'Add '+kind}</button>`);
+ const submit=ev=>{ev?.preventDefault();try{
+  const data=new FormData($('rowForm')),next={...r};for(const k of ['id','material'])next[k]=String(data.get(k)).trim();
+  for(const k of ['w','h','thickness'])next[k]=numberValue(data.get(k),k)*unit;next.qty=numberValue(data.get('qty'),'quantity');next.grain=String(data.get('grain'));
+  if(isStock){next.unlimited=data.has('unlimited');next.active=data.has('active');next.cost=String(data.get('cost')).trim()===''?null:numberValue(data.get('cost'),'cost');}
+  else{next.name=String(data.get('name')).trim();next.notes=String(data.get('notes'));next.priority=numberValue(data.get('priority'),'priority');next.rotate=data.has('rotate');next.color=String(data.get('color'));}
+  const candidate=clone(project),target=isStock?candidate.stocks:candidate.parts;if(existing)target[index]=next;else target.push(next);const errors=Engine.validateProject(candidate);if(errors.length)throw new Error(errors.join('\n'));
+  commit(()=>{if(existing)rows[index]=next;else rows.push(next);});$('modal').close();
+ }catch(e){formError(e.message);}};
+ $('rowForm').onsubmit=submit;$('submitRow').onclick=submit;$('cancelModal').onclick=()=>$('modal').close();
+ if($('duplicateRow'))$('duplicateRow').onclick=()=>{duplicateRow(kind,index);$('modal').close();};if($('deleteRow'))$('deleteRow').onclick=()=>{commit(()=>rows.splice(index,1));$('modal').close();};
+}
+function numberValue(v,label){if(v===null||String(v).trim()===''||!Number.isFinite(Number(v)))throw new Error(`${label}: enter a number.`);return Number(v);}
+function duplicateRow(kind,i){const rows=kind==='stock'?project.stocks:project.parts,r=clone(rows[i]);r.id=nextId(kind==='stock'?'ST-':'P-',rows);const p=clone(project);(kind==='stock'?p.stocks:p.parts).push(r);const e=Engine.validateProject(p);if(e.length)return notify(e.join(' '),true);commit(()=>rows.push(r));}
+function settingsDialog(){
+ const s=project.settings,u=UNIT[s.unit];
+ openModal('Workspace & production settings',`<div id="formError" class="form-error" role="alert"></div><form id="settingsForm"><div class="fields">${selectField('Display / entry units','unit',[['mm','Millimeters'],['cm','Centimeters'],['in','Inches']],s.unit)}${selectField('Appearance','theme',[['dark','Graphite'],['light','Light workshop']],s.theme)}${field('Decimal places (0–5)','precision',s.precision)}${selectField('Part palette','palette',[['industrial','Individual part colors'],['bright','High visibility']],s.palette)}${field('Cutting speed ('+s.unit+'/min)','speed',s.speed/u)}${field('Pierce delay (seconds)','pierce',s.pierce)}${field('Rapid speed ('+s.unit+'/min)','rapid',s.rapid/u)}${field('Setup time (minutes / job)','setup',s.setup)}${checkField('Show part labels','labels',s.labels)}${checkField('Show grid','grid',s.grid)}${checkField('Show ruler ticks','ruler',s.ruler)}${checkField('Show kerf band','showKerf',s.showKerf)}${checkField('Labels in annotated SVG','exportLabels',s.exportLabels)}${checkField('Use current settings for new projects','saveDefaults',false)}</div><p class="hint" style="margin-top:15px">Physical dimensions remain unchanged when switching units. Speed fields above use the current unit (${s.unit}). Rapid speed is saved for reference; rapid distance is unknown and is excluded from the duration estimate. New-project defaults include the current kerf, margins, rotation and search options.</p><button type="submit" hidden></button></form>`,`<button id="cancelModal">Cancel</button><button id="applySettings" class="primary">Apply settings</button>`);
+ $('cancelModal').onclick=()=>$('modal').close();const submit=ev=>{ev?.preventDefault();try{const d=new FormData($('settingsForm')),next={...s};for(const k of ['unit','theme','palette'])next[k]=String(d.get(k));for(const k of ['precision','pierce','setup'])next[k]=numberValue(d.get(k),k);for(const k of ['speed','rapid'])next[k]=numberValue(d.get(k),k)*u;for(const k of ['labels','grid','ruler','showKerf','exportLabels'])next[k]=d.has(k);const e=Engine.validateProject({...project,settings:next});if(e.length)throw new Error(e.join('\n'));checkpoint();project.settings=next;if(result)result.metrics=Engine.metrics(result,project);if(search){for(const c of search.candidates)c.metrics=Engine.metrics(c,project);for(const row of search.rows){row.metrics={...row.metrics,timeMinutes:row.metrics.cut/next.speed+row.metrics.pierces*next.pierce/60+next.setup};}}if(d.has('saveDefaults'))Storage.put(Storage.defaults,next);render();persist();$('modal').close();}catch(e){formError(e.message);}};$('settingsForm').onsubmit=submit;$('applySettings').onclick=submit;
+}
+function parseCSV(text){
+ text=String(text).replace(/^\uFEFF/,'');const delimiter=text.split(/\r?\n/)[0].includes('\t')?'\t':',';const rows=[];let row=[],cell='',quoted=false,closed=false;
+ for(let i=0;i<text.length;i++){
+  const c=text[i];if(quoted){if(c==='"'){if(text[i+1]==='"'){cell+='"';i++;}else{quoted=false;closed=true;}}else cell+=c;}
+  else if(c==='"'){if(cell||closed)throw new Error('Unexpected quote in CSV.');quoted=true;}
+  else if(c===delimiter){row.push(cell);cell='';closed=false;}
+  else if(c==='\n'||c==='\r'){if(c==='\r'&&text[i+1]==='\n')i++;row.push(cell);if(row.some(x=>x.trim()))rows.push(row);row=[];cell='';closed=false;}
+  else{if(closed&&c.trim())throw new Error('Unexpected characters after CSV quote.');if(!closed)cell+=c;}
+ }if(quoted)throw new Error('Unclosed quoted CSV field.');row.push(cell);if(row.some(x=>x.trim()))rows.push(row);return rows;
+}
+function csvEncode(rows){return rows.map(r=>r.map(v=>{let t=String(v??'');if(/^[=+@]/.test(t)||(/^\s*-/.test(t)&&!Number.isFinite(Number(t))))t="'"+t;return /[",\n\r]/.test(t)?'"'+t.replace(/"/g,'""')+'"':t;}).join(',')).join('\r\n');}
+function importParts(text,baseProject=project){
+ const rows=parseCSV(text);if(rows.length<2)throw new Error('Include a header and at least one part row.');
+ const names=rows.shift().map(x=>x.trim().toLowerCase()),header=new Map(names.map((x,i)=>[x,i]));if(header.size!==names.length)throw new Error('Duplicate CSV header.');
+ for(const n of ['id','width','height','quantity'])if(!header.has(n))throw new Error('Missing CSV column: '+n);
+ const b=clone(baseProject),stock=b.stocks[0],decode=t=>t.startsWith("'")&&/^[=+@-]/.test(t.slice(1))?t.slice(1):t;
+ rows.forEach((row,idx)=>{if(row.length!==names.length)throw new Error(`Row ${idx+2}: ${row.length} fields; expected ${names.length}.`);const get=(n,def='')=>header.has(n)?row[header.get(n)]:def;const unit=get('unit',b.settings.unit);if(!UNIT[unit])throw new Error(`Row ${idx+2}: invalid unit.`);const boolean=(n,def)=>{const v=get(n,def).trim().toLowerCase();if(['true','yes','1'].includes(v))return true;if(['false','no','0'].includes(v))return false;throw new Error(`Row ${idx+2}: ${n} must be true or false.`);};
+  b.parts.push(makePart(decode(get('id').trim()),numberValue(get('width'),'width')*UNIT[unit],numberValue(get('height'),'height')*UNIT[unit],numberValue(get('quantity'),'quantity'),{name:decode(get('name',get('id'))),material:decode(get('material',stock?.material||'Mild steel')),thickness:numberValue(get('thickness',String((stock?.thickness??2)/UNIT[unit])),'thickness')*UNIT[unit],rotate:boolean('rotate','true'),grain:get('grain','none').trim(),priority:numberValue(get('priority','0'),'priority'),color:get('color',COLORS[idx%COLORS.length]),notes:decode(get('notes',''))}));
+ });const errors=Engine.validateProject(b);if(errors.length)throw new Error(errors.join('\n'));return b;
+}
+function bulkDialog(){
+ openModal('Paste parts or import CSV',`<div id="formError" class="form-error" role="alert"></div><p class="hint">Paste comma-separated CSV or tab-separated spreadsheet cells, including headers. Required: id, width, height, quantity. Optional: name, material, thickness, rotate, grain, priority, color, notes, unit. Units default to ${project.settings.unit}. Rows are appended; duplicate IDs are rejected.</p><label class="field" style="margin-top:14px">Part data<textarea id="bulkText" rows="12" spellcheck="false" style="font-family:Consolas,monospace" placeholder="id,width,height,quantity&#10;P-10,300,200,4"></textarea></label>`,`<button id="chooseCSV">Choose CSV file</button><button id="importCSV" class="primary">Validate & add parts</button>`,true);
+ $('chooseCSV').onclick=()=>readFile('.csv,.tsv,text/csv,text/tab-separated-values',text=>$('bulkText').value=text);$('importCSV').onclick=()=>{try{const b=importParts($('bulkText').value);replaceProject(b);$('modal').close();notify('Parts imported.');}catch(e){formError(e.message);}};
+}
+function libraryData(){const data=Storage.get(Storage.library,[]);if(!Array.isArray(data)){storageWarning('Saved project index is invalid. Import a JSON backup.');return [];}return data;}
+function saveProject(asNew=false){
+ if(asNew){openModal('Save a separate project',`<label class="field">Project name<input id="saveName" maxlength="100" value="${esc(project.name+' copy')}"></label>`,`<button id="confirmSave" class="primary">Save copy</button>`);$('confirmSave').onclick=()=>{const name=$('saveName').value.trim();if(!name)return notify('Enter a project name.',true);checkpoint();project={...clone(project),id:uid(),name};if(saveProject(false)){$('modal').close();render();}};return;}
+ const e=Engine.validateProject(project);if(e.length){notify(e.join(' '),true);return false;}
+ const list=libraryData(),entry={...clone(project),savedAt:new Date().toISOString()},i=list.findIndex(x=>x.id===project.id);if(i<0)list.push(entry);else list[i]=entry;
+ if(Storage.put(Storage.library,list)){persist();notify('Project saved in this browser. Export JSON for a portable backup.');return true;}return false;
+}
+function libraryDialog(){
+ const list=libraryData();openModal('Local project library',`<p class="hint" style="margin-bottom:12px">Saved projects belong to this browser and file location. Opening a project restores its inputs; optimize again to rebuild validated geometry.</p>${list.length?list.map((p,i)=>`<div class="library-item"><div><strong>${esc(p.name)}</strong><small>${p.parts?.length||0} part types · ${esc(p.savedAt?new Date(p.savedAt).toLocaleString():'')}</small></div><div class="row wrap"><button data-open-project="${i}">Open</button><button data-duplicate-project="${i}">Duplicate</button><button class="danger" data-delete-project="${i}">Delete</button></div></div>`).join(''):'<p class="muted">No named projects saved yet. Use Save to add the current job.</p>'}`,`<button id="importJSON">Import project JSON</button><button id="libraryClose">Close</button>`,true);
+ $('libraryClose').onclick=()=>$('modal').close();$('importJSON').onclick=()=>readFile('.json,application/json',text=>{try{const p=decodeProject(text);replaceProject(p);$('modal').close();notify('Project imported. Optimize to calculate the layout.');}catch(e){notify('Import rejected: '+e.message,true);}});
+ $('modalBody').onclick=e=>{const b=e.target.closest('button');if(!b)return;try{if(b.dataset.openProject!==undefined){replaceProject(decodeProject(JSON.stringify(list[+b.dataset.openProject])));$('modal').close();}else if(b.dataset.duplicateProject!==undefined){const p=clone(list[+b.dataset.duplicateProject]);p.id=uid();p.name=(p.name.slice(0,94)+' copy');p.savedAt=new Date().toISOString();list.push(p);if(Storage.put(Storage.library,list))libraryDialog();}else if(b.dataset.deleteProject!==undefined){const p=list[+b.dataset.deleteProject];confirmAction('Delete saved project?',`Delete “${p.name}” from the local library? The current workspace is kept.`,()=>{list.splice(+b.dataset.deleteProject,1);Storage.put(Storage.library,list);libraryDialog();});}}catch(err){notify(err.message,true);}};
+}
+function decodeProject(text){if(text.length>12e6)throw new Error('Project file exceeds 12 MB.');const raw=JSON.parse(text);if(!raw||raw.version!==1)throw new Error('Unsupported project version.');const p={version:1,id:typeof raw.id==='string'?raw.id:uid(),name:raw.name,stocks:raw.stocks,parts:raw.parts,settings:raw.settings};const e=Engine.validateProject(p);if(e.length)throw new Error(e.join('\n'));return p;}
+function readFile(accept,handler){const input=$('fileInput');input.accept=accept;input.value='';input.onchange=async()=>{const file=input.files[0];if(!file)return;if(file.size>12e6)return notify('File exceeds 12 MB.',true);try{handler(await file.text());}catch(e){notify(e.message,true);}};input.click();}
+function confirmAction(title,message,action){openModal(title,`<p>${esc(message)}</p>`,`<button id="decline">Cancel</button><button id="confirmAction" class="primary">Continue</button>`);$('decline').onclick=()=>$('modal').close();$('confirmAction').onclick=()=>{$('modal').close();action();};}
+function download(text,name,type){const blob=new Blob([text],{type}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);}
+function fileName(){return project.name.replace(/[^a-z0-9_-]+/gi,'-').replace(/^-|-$/g,'')||'SheetCut-project';}
+function exportJSON(){download(JSON.stringify({...project,exportedAt:new Date().toISOString()},null,2),fileName()+'.json','application/json');}
+function partCSV(){const u=UNIT[project.settings.unit];return csvEncode([['id','name','width','height','quantity','material','thickness','rotate','grain','priority','color','notes','unit'],...project.parts.map(p=>[p.id,p.name,p.w/u,p.h/u,p.qty,p.material,p.thickness/u,p.rotate,p.grain,p.priority,p.color,p.notes,project.settings.unit])]);}
+function placementCSV(){const u=UNIT[project.settings.unit];return csvEncode([['sheet','stock_id','material','thickness','part_id','copy','x','y','width','height','rotated','unit'],...result.bins.flatMap(b=>b.placements.map(r=>[b.id,b.stockId,b.stock.material,b.stock.thickness/u,r.partId,r.instance,r.x/u,r.y/u,r.w/u,r.h/u,r.rotated,project.settings.unit]))]);}
+function statsCSV(){return csvEncode([['sheet','stock_id','width_mm','height_mm','material','thickness_mm','parts','part_area_mm2','gross_area_mm2','unused_area_mm2','gross_utilization_percent','usable_utilization_percent','independent_length_mm','selected_length_mm','shared_savings_mm','contours','estimated_pierces','contour_segments','estimated_minutes_with_job_setup_allocated_once','cost','kerf_mm','spacing_mm'],...result.bins.map((b,i)=>{const m=Engine.metrics({bins:[b],unplaced:[]},project);return [b.id,b.stockId,b.w,b.h,b.stock.material,b.stock.thickness,m.count,m.placedArea,m.gross,m.unused,m.utilization,m.usableUtilization,m.length,m.cut,project.settings.common&&m.eligible?m.shared:0,m.contours,m.pierces,m.segments,m.timeMinutes-(i?project.settings.setup:0),b.stock.cost??'',project.settings.kerf,project.settings.spacing];})]);}
+function exportSVG(index,cutOnly){const b=result.bins[index],m=sheetMarkup(b,{annotations:!cutOnly,cutOnly,exporting:true});const size=cutOnly?[b.w,b.h]:[m.vb[2],m.vb[3]];return `<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" width="${size[0]}mm" height="${size[1]}mm" viewBox="${m.vb.join(' ')}">${m.body}</svg>`;}
+function exportDialog(){
+ openModal('Export cutting job',`<p class="hint">SVG contains finished design geometry in millimeters, not validated machine toolpaths. Review kerf compensation, cut order and controller requirements in CAM.</p><div class="stack" style="margin-top:18px"><button id="exportJSON">Editable project · JSON</button><button id="exportParts">Part list · CSV</button><button id="exportPlacements" ${result?'':'disabled'}>Placement coordinates · CSV</button><button id="exportStats" ${result?'':'disabled'}>Sheet statistics & cutting estimates · CSV</button><button id="exportPrint" ${result?'':'disabled'}>Print production report / Save as PDF</button></div>${result?.bins.length?`<div class="fields" style="margin-top:22px">${selectField('Sheet to export','exportSheet',result.bins.map((b,i)=>[String(i),'Sheet '+(i+1)+' · '+b.stockId]),String(sheetIndex))}${selectField('SVG content','svgMode',[['annotated','Annotated cutting plan'],['cut','Clean finished outlines']], 'annotated')}</div><button id="exportSvg" style="margin-top:12px;width:100%">Export selected sheet · SVG</button>`:''}`,`<button id="exportClose">Close</button>`);
+ $('exportClose').onclick=()=>$('modal').close();$('exportJSON').onclick=exportJSON;$('exportParts').onclick=()=>download(partCSV(),fileName()+'-parts.csv','text/csv;charset=utf-8');$('exportPlacements').onclick=()=>download(placementCSV(),fileName()+'-placements.csv','text/csv;charset=utf-8');$('exportStats').onclick=()=>download(statsCSV(),fileName()+'-statistics.csv','text/csv;charset=utf-8');$('exportPrint').onclick=()=>{$('modal').close();preparePrint();window.print();};if($('exportSvg'))$('exportSvg').onclick=()=>{const i=+$('modalBody').querySelector('[name=exportSheet]').value,cut=$('modalBody').querySelector('[name=svgMode]').value==='cut';download(exportSVG(i,cut),fileName()+'-sheet-'+(i+1)+(cut?'-outlines':'')+'.svg','image/svg+xml');};
+}
+function preparePrint(){
+ if(!result)return;const m=result.metrics,date=new Date().toLocaleString(),s=project.settings;
+ let html=`<section class="print-page"><h1>SheetCut Pro · ${esc(project.name)}</h1><p>${esc(date)} · Best layout found · ${esc(result.strategy)}</p><div class="print-summary"><strong>${m.sheets} sheets</strong><strong>${m.count} / ${m.required} parts placed</strong><strong>${f(m.utilization,2)}% gross utilization</strong><strong>${areaText(m.unused)} unused</strong></div><p>Finished area ${areaText(m.placedArea)} / gross allocated ${areaText(m.gross)}. Usable utilization ${f(m.usableUtilization,2)}%. Stock cost ${m.priced?money(m.cost):money(m.cost)+' plus unpriced stock'}.</p><p>Independent contour length ${lengthText(m.length)}; selected cutting length ${lengthText(m.cut)}; ${m.contours} contours; ${m.pierces} estimated pierces; ${m.segments} contour segments; duration estimate ${timeText(m.timeMinutes)}.</p><p>Kerf ${dimension(s.kerf)}; extra spacing ${dimension(s.spacing)}; margins L/R/T/B ${[s.left,s.right,s.top,s.bottom].map(dimension).join(' / ')}. Cutting speed ${dimension(s.speed)}/min; pierce delay ${f(s.pierce)} sec; setup ${f(s.setup)} min.</p><p class="muted">Finished dimensions; origin top-left, X right, Y down. Gross unused includes kerf, margins and remaining material. Estimates exclude lead-ins and rapid travel. Common-line ${s.common&&m.eligible?'enabled; shared edge savings '+lengthText(m.shared):'not applied'}. Design geometry only; CAM and machine review required.</p><h2>Required parts</h2>${table(['ID','Name','Material / thickness','Dimensions','Quantity','Area'],project.parts.map(p=>[esc(p.id),esc(p.name),esc(p.material)+' / '+dimension(p.thickness),dimension(p.w)+' × '+dimension(p.h),p.qty,areaText(p.w*p.h*p.qty)]))}${result.unplaced.length?'<h2>Unplaced parts</h2>'+table(['ID','Copy','Reason'],result.unplaced.map(r=>[esc(r.partId),r.instance,esc(r.reason)])):''}</section>`;
+ for(const b of result.bins){const svg=sheetMarkup(b,{exporting:true}),a=b.placements.reduce((n,p)=>n+p.w*p.h,0);html+=`<section class="print-page"><h2>Sheet ${b.id} · ${esc(b.stockId)} · ${esc(b.stock.material)} ${dimension(b.stock.thickness)}</h2><p>${dimension(b.w)} × ${dimension(b.h)} · ${b.placements.length} parts · ${f(a/b.w/b.h*100,2)}% utilization · ${areaText(b.w*b.h-a)} gross unused</p><svg xmlns="http://www.w3.org/2000/svg" viewBox="${svg.vb.join(' ')}">${svg.body}</svg>${table(['Part','Copy','X','Y','Width','Height','Rotation'],b.placements.map(r=>[esc(r.partId),r.instance,dimension(r.x),dimension(r.y),dimension(r.w),dimension(r.h),r.rotated?'90°':'0°']))}</section>`;}
+ const currentLabel=result.family==='manual'?'Manually adjusted layout':search&&result.key!==search.candidates[0]?.key?'Selected alternative layout':'Best layout found';html=html.replace('Best layout found ·',currentLabel+' ·');$('printRoot').innerHTML=html;
+}
+async function optimize(){
+ if(running)return;const errors=Engine.validateProject(project);if(errors.length)return notify(errors.join(' '),true);if(!project.parts.length)return notify('Add at least one part.',true);
+ checkpoint();running=true;cancelRequested=false;const serial=++runSerial;const input=clone(project);$('progress').classList.add('on');$('optimize').disabled=true;status('Searching for valid layouts…');
+ const progress=p=>{if(serial!==runSerial)return;$('progressText').textContent=`Attempt ${Math.min(p.done+1,p.total)} / ${p.total}`;$('progressBar').value=p.done/p.total;status(p.strategy);};
+ const finish=data=>{if(serial!==runSerial)return;running=false;worker?.terminate();worker=null;$('progress').classList.remove('on');$('optimize').disabled=false;if(!data.candidates.length){notify('No completed candidate. Existing layout retained.',true);return;}for(const c of data.candidates)c.metrics=Engine.metrics(c,project);for(const row of data.rows)row.metrics.timeMinutes=row.metrics.cut/project.settings.speed+row.metrics.pierces*project.settings.pierce/60+project.settings.setup;search=data;result=data.candidates[0];sheetIndex=0;selected=null;zoom=1;pan={x:0,y:0};offcutCache=new WeakMap();renderOutput();$('undo').disabled=!history.length;status(`${data.completed} validated attempts in ${f(data.elapsed/1000,2)} s · ${data.stopReason} · best layout found`);persist();};
+ const fail=e=>{if(serial!==runSerial)return;running=false;worker?.terminate();worker=null;$('progress').classList.remove('on');$('optimize').disabled=false;notify(e.message||String(e),true);status('Optimization stopped. Check the reported inputs.');};
+ const fallback=async()=>{if(serial!==runSerial)return;status('Worker unavailable; using cooperative browser optimization.');try{finish(await Engine.solve(input,{progress,cancelled:()=>cancelRequested||serial!==runSerial}));}catch(e){fail(e);}};
+ try{
+  const source=`const Engine=(${createEngine.toString()})();let stopped=false;onmessage=async e=>{if(e.data.type==='cancel'){stopped=true;return;}try{const data=await Engine.solve(e.data.project,{progress:p=>postMessage({type:'progress',p}),cancelled:()=>stopped});postMessage({type:'done',data});}catch(e){postMessage({type:'error',message:e.message});}};`;
+  const url=URL.createObjectURL(new Blob([source],{type:'text/javascript'}));try{worker=new Worker(url);}finally{URL.revokeObjectURL(url);}
+  worker.onmessage=e=>{if(e.data.type==='progress')progress(e.data.p);else if(e.data.type==='done')finish(e.data.data);else fail(new Error(e.data.message));};
+  worker.onerror=e=>{e.preventDefault();worker?.terminate();worker=null;fallback();};worker.postMessage({type:'start',project:input});
+ }catch(e){fallback();}
+}
+function cancelRun(discard=false){if(!running)return;cancelRequested=true;if(discard){runSerial++;worker?.terminate();worker=null;running=false;$('progress').classList.remove('on');$('optimize').disabled=false;}else{worker?.postMessage({type:'cancel'});status('Cancelling; keeping completed candidates…');}}
+function selectPlacement(bi,ri){sheetIndex=bi;view='detail';const r=result.bins[bi].placements[ri];selected={sheet:bi,index:ri,partId:r.partId};renderOutput();if(matchMedia('(max-width:900px)').matches)setPane('results');const heading=$('inspector').querySelector('h3');if(heading){heading.tabIndex=-1;heading.focus({preventScroll:true});$('inspector').closest('section').scrollIntoView({block:'nearest',behavior:'instant'});}}
+function manualEdit(rotate=false){
+ if(!selected||!result||result.family==='guillotine')return;const next=clone(result),r=next.bins[selected.sheet].placements[selected.index];
+ try{if(rotate){[r.w,r.h]=[r.h,r.w];r.rotated=!r.rotated;}else{r.x=numberValue($('inspector').querySelector('[name=moveX]').value,'X')*UNIT[project.settings.unit];r.y=numberValue($('inspector').querySelector('[name=moveY]').value,'Y')*UNIT[project.settings.unit];}
+  const errors=Engine.validateLayout(next,project);if(errors.length)throw new Error(errors.slice(0,3).join(' '));checkpoint();next.strategy='Manually adjusted · validated';next.family='manual';next.key='manual';next.metrics=Engine.metrics(next,project);result=next;search=null;offcutCache=new WeakMap();renderOutput();$('undo').disabled=false;notify('Placement validated; metrics updated. Layout edits remain in this session; saved inputs recompute on reopen.');
+ }catch(e){notify('Move rejected: '+e.message,true);}
+}
+function helpDialog(){openModal('Geometry & production guide',`<div class="help"><h3>Finished geometry</h3><p>All geometry is stored in millimeters. Display units do not change physical size. Coordinates start at the sheet’s top-left; X increases right, Y increases down. Rectangles represent finished parts.</p><p>One nominal gap of kerf + extra spacing separates neighboring parts. Edge margins reserve stock independently; no additional gap is required at the outer usable boundary. Set sufficient margins for your machine’s edge cutting process.</p><h3>Search and validation</h3><p>MaxRects tries short-side, long-side, area, bottom-left and contact-point fits. Guillotine recursively separates free regions using straight partition lines. Different part orders, deterministic random restarts and stock selection policies are compared. Up to eight candidate layouts remain selectable. Finite stock and material/thickness matching are always enforced. A part’s grain direction must align with known stock grain after rotation.</p><p>Every candidate is validated independently. Fewer unplaced pieces ranks first, then greater placed area. Sheet-count minimizes count then gross area; utilization minimizes consumed area; cost minimizes known stock cost; cut-length minimizes nominal contour length (or eligible shared-edge union). Balanced scores gross area × (1 + 0.08 × sheet count). All have deterministic secondary comparisons. These are heuristics, not mathematical proofs. With fixed placed parts and independent contours, cut length does not depend on arrangement.</p><h3>Manufacturing estimates</h3><p>Independent length is the sum of finished rectangular perimeters. Common-line union is allowed only when kerf and spacing are exactly zero and finished edges actually coincide. Nonzero-kerf common-line compensation is left to CAM. One pierce per independent part remains a conservative estimate even for common lines.</p><p>Duration = selected length / cutting speed + pierces × delay + setup. Rapid speed is stored but excluded because travel distance is unknown. Lead-ins, acceleration and process-dependent cut order are excluded. Guillotine partition splits are not an exact machine operation count; strips may require additional trim cuts.</p><p>Kerf area is an approximate perimeter-times-kerf value, not exact waste. Offcuts form a non-overlapping conservative partition outside exclusion bands. Their practical recoverability is not certified.</p><h3>Saving and exports</h3><p>Autosave and named projects use browser local storage. Keep the file at the same path and use the same browser profile. Storage may be unavailable in private browsing. Export JSON for a portable backup. On reopen, saved inputs are restored and layouts must be recomputed; manual layout edits are session-only. SVG exports are design geometry, not compensated machine toolpaths. Browser Print provides Save as PDF.</p><h3>Limits and shortcuts</h3><p>Maximum 5,000 physical parts, 200 stock types. Effort budgets: Fast 5 seconds, Balanced 15 seconds, Thorough 45 seconds, plus completion of the first candidate. A Blob worker keeps input responsive; a cooperative main-thread fallback is provided. Cancel preserves completed candidates.</p><p>Ctrl/Cmd+S saves · Ctrl/Cmd+Z undoes · Ctrl/Cmd+Y redoes · Escape closes dialogs. Use Tab through table cells. Select a part with Enter or Space; edit exact coordinates in the inspector. Scroll over the drawing to zoom and drag its background to pan.</p><h3>Algorithm reference</h3><p>Established packing families are described in Jukka Jylänki’s RectangleBinPack research. The application and its implementation run entirely offline.</p></div>`,`<button id="helpClose">Close guide</button>`,true);$('helpClose').onclick=()=>$('modal').close();}
+function setPane(name){$('app').dataset.pane=name;document.querySelectorAll('.mobile-nav button').forEach(b=>b.classList.toggle('active',b.dataset.pane===name));syncPressed();requestAnimationFrame(updateLabelVisibility);}
+function updateSetting(el){
+ const k=el.dataset.setting,s=project.settings;try{const value=el.type==='checkbox'?el.checked:el.tagName==='SELECT'?el.value:numberValue(el.value,k)*UNIT[s.unit],next=clone(project);next.settings[k]=value;const errors=Engine.validateProject(next);if(errors.length)throw new Error(errors.join(' '));commit(()=>project.settings[k]=value);}catch(e){notify(e.message,true);renderInputs();}
+}
+function initEvents(){
+ $('addStock').onclick=()=>editRow('stock');$('addPart').onclick=()=>editRow('part');$('bulk').onclick=bulkDialog;$('settings').onclick=settingsDialog;$('help').onclick=helpDialog;$('library').onclick=libraryDialog;$('export').onclick=exportDialog;$('save').onclick=()=>saveProject();$('saveAs').onclick=()=>saveProject(true);$('undo').onclick=undo;$('redo').onclick=redo;$('optimize').onclick=optimize;$('cancel').onclick=()=>cancelRun();$('closeModal').onclick=()=>$('modal').close();
+ $('modal').addEventListener('close',()=>{$('modalBody').onclick=null;});
+ $('newProject').onclick=()=>confirmAction('Start a new project?','The current workspace will be replaced. Save it to the local library or export JSON first if needed.',()=>replaceProject(emptyProject()));
+ $('example').onclick=()=>confirmAction('Load the example job?','This replaces the workspace with a labeled sample enclosure job. You can undo this change.',()=>{replaceProject(exampleProject());optimize();});
+ $('projectName').onchange=()=>{const name=$('projectName').value.trim();if(!name){notify('Project name is required.',true);$('projectName').value=project.name;return;}checkpoint();project.name=name;persist();};
+ $('partSearch').oninput=renderParts;
+ $('stockList').onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.editStock!==undefined)editRow('stock',+b.dataset.editStock);else if(b.dataset.copyStock!==undefined)duplicateRow('stock',+b.dataset.copyStock);else if(b.dataset.deleteStock!==undefined)commit(()=>project.stocks.splice(+b.dataset.deleteStock,1));else if(b.dataset.toggleStock!==undefined){const i=+b.dataset.toggleStock,next=clone(project);next.stocks[i].active=!next.stocks[i].active;const err=Engine.validateProject(next);if(err.length)notify(err.join(' '),true);else commit(()=>project.stocks[i].active=!project.stocks[i].active);}};
+ $('partRows').onclick=e=>{const b=e.target.closest('[data-edit-part]');if(b)editRow('part',+b.dataset.editPart);};
+ $('partRows').onchange=e=>{const el=e.target;if(el.dataset.part===undefined)return;const i=+el.dataset.part,k=el.dataset.key;try{const v=el.type==='checkbox'?el.checked:numberValue(el.value,k)*(k==='w'||k==='h'?UNIT[project.settings.unit]:1),next=clone(project);next.parts[i][k]=v;const errors=Engine.validateProject(next);if(errors.length)throw new Error(errors.join(' '));commit(()=>project.parts[i][k]=v);}catch(e){notify(e.message,true);renderParts();document.querySelector(`[data-part="${i}"][data-key="${k}"]`)?.focus({preventScroll:true});}};
+ $('partRows').onkeydown=e=>{if(!['Tab','Enter'].includes(e.key)||e.target.dataset.part===undefined)return;const inputs=[...$('partRows').querySelectorAll('input')],i=inputs.indexOf(e.target),next=inputs[i+(e.shiftKey?-1:1)],target=next?`[data-part="${next.dataset.part}"][data-key="${next.dataset.key}"]`:e.shiftKey?'#partSearch':'#bulk';e.preventDefault();if(e.target.type!=='checkbox')e.target.dispatchEvent(new Event('change',{bubbles:true}));restoreFocus(target);};
+ $('cutSettings').onchange=e=>{if(e.target.dataset.setting)updateSetting(e.target);};$('optSettings').onchange=e=>{if(e.target.dataset.setting)updateSetting(e.target);};
+ $('sheetSelect').onchange=()=>{sheetIndex=+$('sheetSelect').value;selected=null;zoom=1;pan={x:0,y:0};renderStage();renderInspector();};
+ $('detailView').onclick=()=>{view='detail';renderOutput();};$('overviewView').onclick=()=>{view='overview';renderOutput();};
+ document.querySelectorAll('[data-report]').forEach(b=>b.onclick=()=>{reportTab=b.dataset.report;renderReport();});document.querySelectorAll('.mobile-nav button').forEach(b=>b.onclick=()=>setPane(b.dataset.pane));
+ document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+  if(b.dataset.sheet!==undefined){sheetIndex=+b.dataset.sheet;view='detail';selected=null;zoom=1;pan={x:0,y:0};renderOutput();}
+  if(b.dataset.selectPlacement){const [bi,ri]=b.dataset.selectPlacement.split(',').map(Number);selectPlacement(bi,ri);}
+  if(b.dataset.candidate&&search){const c=search.candidates.find(c=>c.key===b.dataset.candidate);if(c){checkpoint();result=clone(c);selected=null;sheetIndex=0;zoom=1;pan={x:0,y:0};offcutCache=new WeakMap();renderOutput();$('undo').disabled=false;}}
+  if(b.id==='laserSettings')settingsDialog();if(b.id==='movePart')manualEdit();if(b.id==='rotatePart')manualEdit(true);
+  const action=b.dataset.action;if(action==='optimize')optimize();if(action==='zoomIn'||action==='zoomOut'){zoom=Math.max(.25,Math.min(12,zoom*(action==='zoomIn'?1.25:.8)));renderStage();}if(action==='fit'){zoom=1;pan={x:0,y:0};renderStage();}if(action==='grid'||action==='offcuts'){project.settings[action]=!project.settings[action];renderStage();persist();}
+ });
+ const stage=$('stage');let drag=null,moved=false;
+ stage.addEventListener('pointerdown',e=>{const svg=$('planSvg');if(!svg||e.target.closest('button')||e.target.closest('.part'))return;const ctm=svg.getScreenCTM();drag={x:e.clientX,y:e.clientY,pan:{...pan},scale:ctm?.a||1};moved=false;svg.setPointerCapture(e.pointerId);});
+ stage.addEventListener('pointermove',e=>{if(!drag)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;if(Math.abs(dx)+Math.abs(dy)>3)moved=true;pan={x:drag.pan.x+dx/drag.scale,y:drag.pan.y+dy/drag.scale};applyView();});
+ stage.addEventListener('pointerup',()=>{drag=null;});stage.addEventListener('pointercancel',()=>drag=null);
+ stage.addEventListener('click',e=>{if(moved){moved=false;return;}const part=e.target.closest('[data-placement]');if(part)selectPlacement(sheetIndex,+part.dataset.placement);});
+ stage.addEventListener('keydown',e=>{const part=e.target.closest('[data-placement]');if(part&&(e.key==='Enter'||e.key===' ')){e.preventDefault();selectPlacement(sheetIndex,+part.dataset.placement);}});
+ stage.addEventListener('wheel',e=>{if(!result?.bins.length||view!=='detail'||e.target.closest('button'))return;e.preventDefault();const svg=$('planSvg'),b=result.bins[sheetIndex];if(!svg)return;const point=new DOMPoint(e.clientX,e.clientY).matrixTransform(svg.getScreenCTM().inverse()),old=zoom;zoom=Math.max(.25,Math.min(12,zoom*Math.exp(-e.deltaY*.0015)));pan.x=point.x-b.w/2-(point.x-b.w/2-pan.x)*zoom/old;pan.y=point.y-b.h/2-(point.y-b.h/2-pan.y)*zoom/old;applyView();},{passive:false});
+ document.addEventListener('keydown',e=>{if(!(e.ctrlKey||e.metaKey))return;const editing=/INPUT|TEXTAREA|SELECT/.test(e.target.tagName);if(e.key.toLowerCase()==='s'){e.preventDefault();saveProject();}if(!editing&&!$('modal').open&&e.key.toLowerCase()==='z'){e.preventDefault();e.shiftKey?redo():undo();}if(!editing&&!$('modal').open&&e.key.toLowerCase()==='y'){e.preventDefault();redo();}});
+ window.addEventListener('beforeunload',()=>Storage.put(Storage.workspace,project));window.addEventListener('beforeprint',preparePrint);window.addEventListener('resize',updateLabelVisibility);
+}
+function boot(){
+ let restored=false;const saved=Storage.get(Storage.workspace,null);if(saved){try{project=decodeProject(JSON.stringify(saved));restored=true;}catch(e){storageWarning('Autosave was invalid. Example loaded; original stored data has not been overwritten.');notify('Autosave could not be restored: '+e.message,true);}}
+ render();initEvents();if(restored)status('Workspace restored. Optimize to rebuild a validated layout.');else if(!saved){persist();setTimeout(optimize,100);}
+}
+// Public test surface is intentionally small; it has no network or runtime dependencies.
+window.SheetCut={Engine,exampleProject,makePart,makeStock,parseCSV,csvEncode,importParts,decodeProject,partCSV,placementCSV,statsCSV,exportSVG,preparePrint,getProject:()=>clone(project),getResult:()=>result?clone(result):null,getSearch:()=>search?clone(search):null,isRunning:()=>running,setProject:replaceProject,optimize,cancel:cancelRun,save:saveProject};
+boot();
+</script>
+</body>
+</html>

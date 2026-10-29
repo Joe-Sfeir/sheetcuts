@@ -1,0 +1,152 @@
+{
+  "report": [
+    {
+      "name": "Direct file:// Chrome startup, example worker optimization",
+      "passed": true,
+      "sheets": 2,
+      "utilization": 67.43679999999999,
+      "attempts": 24
+    },
+    {
+      "name": "Responsive viewport 1920x1080",
+      "passed": true,
+      "doc": 1920,
+      "width": 1920,
+      "stage": 613.5
+    },
+    {
+      "name": "Responsive viewport 1440x900",
+      "passed": true,
+      "doc": 1440,
+      "width": 1440,
+      "stage": 458.5
+    },
+    {
+      "name": "Responsive viewport 1280x800",
+      "passed": true,
+      "doc": 1280,
+      "width": 1280,
+      "stage": 358.5
+    },
+    {
+      "name": "Responsive viewport 768x1024",
+      "passed": true,
+      "doc": 768,
+      "width": 768,
+      "stage": 525.203125
+    },
+    {
+      "name": "Responsive viewport 390x844",
+      "passed": true,
+      "doc": 390,
+      "width": 390,
+      "stage": 345.203125
+    },
+    {
+      "name": "Overview, sheet navigation, zoom, fit, grid and offcuts",
+      "passed": true
+    },
+    {
+      "name": "Keyboard selection focuses and reveals coordinate inspector",
+      "passed": true
+    },
+    {
+      "name": "Repeated keyboard zoom retains focus",
+      "passed": true
+    },
+    {
+      "name": "Dialogs named and visual states exposed to accessibility",
+      "passed": true
+    },
+    {
+      "name": "Add part form, invalidation, undo and redo",
+      "passed": true
+    },
+    {
+      "name": "Inline invalid dimension rejected",
+      "passed": true
+    },
+    {
+      "name": "Inline Tab, Shift+Tab and Enter preserve logical cell focus",
+      "passed": true
+    },
+    {
+      "name": "Stock create, duplicate, deactivate and delete",
+      "passed": true
+    },
+    {
+      "name": "Unit conversion preserves physical dimensions and light theme",
+      "passed": true
+    },
+    {
+      "name": "Bulk CSV quoted comma and multiline import",
+      "passed": true
+    },
+    {
+      "name": "Autosave survives reload; stale geometry is not restored",
+      "passed": true
+    },
+    {
+      "name": "Named Save / New / Open project workflow",
+      "passed": true
+    },
+    {
+      "name": "Compare and select another validated candidate",
+      "passed": true
+    },
+    {
+      "name": "Real JSON, CSV and SVG downloads and round-trip parsing",
+      "passed": true
+    },
+    {
+      "name": "Print button and native Chromium PDF report",
+      "passed": true
+    },
+    {
+      "name": "Malformed JSON, duplicate IDs and invalid CSV rejected",
+      "passed": true
+    },
+    {
+      "name": "Validated manual movement, rotation and invalid-move rejection",
+      "passed": true
+    },
+    {
+      "name": "1000-part real Chrome worker benchmark",
+      "passed": true,
+      "count": 1000,
+      "sheets": 19,
+      "utilization": 89.36168421052632,
+      "engineMs": 292.20000000298023,
+      "attempts": 24,
+      "heartbeat": 16,
+      "wallMs": 344
+    },
+    {
+      "name": "Cancellation returns control",
+      "passed": true
+    },
+    {
+      "name": "Cooperative fallback when Blob Worker is unavailable",
+      "passed": true
+    },
+    {
+      "name": "No external network requests or browser console errors",
+      "passed": true
+    },
+    {
+      "name": "Mobile touch undo/redo and deliberate inspector handoff",
+      "passed": true
+    },
+    {
+      "name": "msedge direct file startup and optimization",
+      "passed": true
+    },
+    {
+      "name": "firefox compatibility",
+      "passed": null,
+      "unavailable": "browserType.launch: Executable doesn't exist at C:\\Users\\Joe\\AppData\\Local\\ms-playwright\\firefox-1539\\firefox\\firefox.exe"
+    }
+  ],
+  "errors": [],
+  "requests": []
+}

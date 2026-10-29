@@ -1,0 +1,197 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-29T21:30:39.909314+00:00",
+  "title": "Design System: SheetCut Pro",
+  "extensions": {
+    "sources": [
+      "index.html",
+      "PRODUCT.md",
+      "docs/DESIGN-BRIEF.md",
+      "sheetcut-qa/final-desktop.png",
+      "sheetcut-qa/final-mobile.png"
+    ],
+    "colorMeta": {
+      "accent": {
+        "role": "primary",
+        "displayName": "Instrument teal",
+        "purpose": "Primary action and validation"
+      },
+      "bg": {
+        "role": "neutral",
+        "displayName": "Graphite workspace"
+      },
+      "panel": {
+        "role": "neutral",
+        "displayName": "Slate panels"
+      },
+      "warn": {
+        "displayName": "Estimate amber",
+        "purpose": "Written limitations and unplaced demand"
+      },
+      "bad": {
+        "displayName": "Error red",
+        "purpose": "Errors and destructive actions"
+      }
+    },
+    "typographyMeta": {
+      "body": {
+        "displayName": "Offline system type",
+        "purpose": "Compact workspace and forms"
+      },
+      "metric": {
+        "displayName": "Utilization metric",
+        "purpose": "Primary material-efficiency reading"
+      }
+    },
+    "shadows": [
+      {
+        "name": "toast",
+        "value": "0 8px 30px #0005",
+        "purpose": "Temporary feedback"
+      },
+      {
+        "name": "dialog",
+        "value": "0 18px 60px #0007",
+        "purpose": "Modal workspace elevation"
+      }
+    ],
+    "motion": [
+      {
+        "name": "reduced-motion",
+        "value": "scroll-behavior:auto!important;transition:none!important;animation:none!important",
+        "purpose": "Applied to all elements when prefers-reduced-motion is reduce"
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "mobile",
+        "value": "900px"
+      },
+      {
+        "name": "compact-desktop",
+        "value": "1250px"
+      },
+      {
+        "name": "wide-desktop",
+        "value": "1750px"
+      }
+    ],
+    "theme": {
+      "default": "Graphite",
+      "alternate": "Light workshop",
+      "selector": "body.light",
+      "mapping": "The light-* frontmatter tokens replace their unprefixed CSS custom properties."
+    },
+    "focus": {
+      "controls": "2px solid var(--focus), 2px offset",
+      "selection": "Focus selected inspector heading with preventScroll; scroll its section into view with instant behavior; open Results at mobile width."
+    },
+    "documentationPolicy": "Only observed implementation tokens are recorded. No synthetic tonal ramps are introduced. Component previews are static visual specimens, not application functionality."
+  },
+  "components": [
+    {
+      "name": "Primary button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Implemented primary action treatment.",
+      "html": "<button class=\"ds-button-primary\">Optimize layout</button>",
+      "css": ".ds-button-primary{font:13px/1.45 \"Segoe UI\",system-ui,sans-serif;color:var(--text,#e7edf3);background:var(--panel2,#202d3a);border:1px solid var(--line,#354554);border-radius:var(--radius,5px);min-height:32px;padding:5px 11px;white-space:nowrap;cursor:pointer;background:var(--accent,#70dfcc);color:var(--accent-ink,#102923);border-color:var(--accent,#70dfcc);font-weight:700;}.ds-button-primary:hover{filter:brightness(1.08);}.ds-button-primary:focus-visible{outline:2px solid var(--focus,#96caff);outline-offset:2px;}.ds-button-primary:disabled{opacity:.45;cursor:not-allowed;}"
+    },
+    {
+      "name": "Secondary button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Implemented secondary action treatment.",
+      "html": "<button class=\"ds-button-secondary\">Save</button>",
+      "css": ".ds-button-secondary{font:13px/1.45 \"Segoe UI\",system-ui,sans-serif;color:var(--text,#e7edf3);background:var(--panel2,#202d3a);border:1px solid var(--line,#354554);border-radius:var(--radius,5px);min-height:32px;padding:5px 11px;white-space:nowrap;cursor:pointer;}.ds-button-secondary:hover{background:var(--line,#354554);}.ds-button-secondary:focus-visible{outline:2px solid var(--focus,#96caff);outline-offset:2px;}.ds-button-secondary:disabled{opacity:.45;cursor:not-allowed;}"
+    },
+    {
+      "name": "Quiet button",
+      "kind": "button",
+      "refersTo": "button-quiet",
+      "description": "Implemented quiet action treatment.",
+      "html": "<button class=\"ds-button-quiet\">Close</button>",
+      "css": ".ds-button-quiet{font:13px/1.45 \"Segoe UI\",system-ui,sans-serif;color:var(--text,#e7edf3);background:var(--panel2,#202d3a);border:1px solid var(--line,#354554);border-radius:var(--radius,5px);min-height:32px;padding:5px 11px;white-space:nowrap;cursor:pointer;background:transparent;}.ds-button-quiet:hover{background:transparent;}.ds-button-quiet:focus-visible{outline:2px solid var(--focus,#96caff);outline-offset:2px;}.ds-button-quiet:disabled{opacity:.45;cursor:not-allowed;}"
+    },
+    {
+      "name": "Danger button",
+      "kind": "button",
+      "refersTo": "button-danger",
+      "description": "Implemented danger action treatment.",
+      "html": "<button class=\"ds-button-danger\">Delete</button>",
+      "css": ".ds-button-danger{font:13px/1.45 \"Segoe UI\",system-ui,sans-serif;color:var(--text,#e7edf3);background:var(--panel2,#202d3a);border:1px solid var(--line,#354554);border-radius:var(--radius,5px);min-height:32px;padding:5px 11px;white-space:nowrap;cursor:pointer;color:var(--bad,#ffaba8);}.ds-button-danger:hover{background:var(--line,#354554);}.ds-button-danger:focus-visible{outline:2px solid var(--focus,#96caff);outline-offset:2px;}.ds-button-danger:disabled{opacity:.45;cursor:not-allowed;}"
+    },
+    {
+      "name": "Small button",
+      "kind": "button",
+      "refersTo": "button-small",
+      "description": "Implemented small action treatment.",
+      "html": "<button class=\"ds-button-small\">+ Add stock</button>",
+      "css": ".ds-button-small{font:13px/1.45 \"Segoe UI\",system-ui,sans-serif;color:var(--text,#e7edf3);background:var(--panel2,#202d3a);border:1px solid var(--line,#354554);border-radius:var(--radius,5px);min-height:32px;padding:5px 11px;white-space:nowrap;cursor:pointer;min-height:27px;padding:3px 7px;font-size:12px;}.ds-button-small:hover{background:var(--line,#354554);}.ds-button-small:focus-visible{outline:2px solid var(--focus,#96caff);outline-offset:2px;}.ds-button-small:disabled{opacity:.45;cursor:not-allowed;}"
+    },
+    {
+      "name": "Measurement field",
+      "kind": "input",
+      "refersTo": "input-field",
+      "description": "Labeled dimension input with tabular numerals.",
+      "html": "<label class=\"ds-field\">Cutting kerf (mm)<input type=\"number\" value=\"0.2\" step=\"0.1\"></label>",
+      "css": ".ds-field{display:grid;gap:5px;font:12px/1.45 \"Segoe UI\",system-ui,sans-serif;color:var(--muted,#aab9c7)}.ds-field input{font:inherit;font-variant-numeric:tabular-nums;color:var(--text,#e7edf3);background:var(--input,#101a24);border:1px solid var(--line,#354554);border-radius:4px;padding:6px 8px;min-width:0;caret-color:var(--accent,#70dfcc)}.ds-field input:focus{outline:2px solid var(--focus,#96caff);outline-offset:2px;}"
+    },
+    {
+      "name": "Mobile working panes",
+      "kind": "nav",
+      "refersTo": "navigation-active",
+      "description": "One pane at a time: Inputs, Layout and Results.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Workspace panes\"><button aria-pressed=\"false\">Inputs</button><button aria-pressed=\"true\">Layout</button><button aria-pressed=\"false\">Results</button></nav>",
+      "css": ".ds-nav{display:flex;gap:6px;padding:6px 12px;background:var(--panel,#19232e);border-bottom:1px solid var(--line,#354554)}.ds-nav button{font:13px/1.45 \"Segoe UI\",system-ui,sans-serif;color:var(--text,#e7edf3);background:var(--panel2,#202d3a);border:1px solid var(--line,#354554);border-radius:var(--radius,5px);min-height:32px;padding:5px 11px;white-space:nowrap;cursor:pointer;flex:1}.ds-nav button:hover{background:var(--line,#354554)}.ds-nav button[aria-pressed=true]{background:var(--line,#354554);color:var(--accent,#70dfcc)}.ds-nav button:focus-visible{outline:2px solid var(--focus,#96caff);outline-offset:2px;}"
+    },
+    {
+      "name": "Validation badge",
+      "kind": "chip",
+      "refersTo": "status-badge",
+      "description": "Written status accompanies the teal validation cue.",
+      "html": "<span class=\"ds-badge\">Geometry validated</span>",
+      "css": ".ds-badge{display:inline-flex;border:1px solid var(--line,#354554);padding:3px 7px;border-radius:3px;font:10px/1.45 \"Segoe UI\",system-ui,sans-serif;color:var(--accent,#70dfcc)}"
+    },
+    {
+      "name": "Sheet overview card",
+      "kind": "card",
+      "refersTo": "sheet-card",
+      "description": "Selectable stock preview; example geometry is illustrative.",
+      "html": "<button class=\"ds-sheet\"><strong>Sheet 1 / ST-2500</strong><svg viewBox=\"0 0 250 125\" aria-label=\"Illustrative sheet preview\" role=\"img\"><rect x=\"1\" y=\"1\" width=\"248\" height=\"123\" fill=\"#edf2f4\" stroke=\"#8394a0\"/><rect x=\"4\" y=\"4\" width=\"120\" height=\"117\" fill=\"#69c9da\" stroke=\"#476477\"/></svg><span class=\"ds-card-row\">2,500 × 1,250 mm</span></button>",
+      "css": ".ds-sheet{font:13px/1.45 \"Segoe UI\",system-ui,sans-serif;color:var(--text,#e7edf3);background:var(--panel2,#202d3a);border:1px solid var(--line,#354554);border-radius:var(--radius,5px);min-height:32px;padding:5px 11px;white-space:nowrap;cursor:pointer;padding:13px;text-align:left;white-space:normal;background:var(--panel,#19232e)}.ds-sheet svg{display:block;height:155px;width:100%;margin:12px 0;pointer-events:none}.ds-card-row{font-size:11px;color:var(--muted,#aab9c7)}.ds-sheet:hover{background:var(--line,#354554)}.ds-sheet:focus-visible{outline:2px solid var(--focus,#96caff);outline-offset:2px;}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The CAD workspace",
+    "overview": "A slate instrument panel surrounds a pale measured sheet. Compact controls, precise dimensions and visible production assumptions support fabrication work; colored parts carry information. This is the user's pinned CAD direction, documented from the implementation rather than a new visual concept.",
+    "keyCharacteristics": [
+      "Dense, divided working panels with a dominant drawing surface.",
+      "Local system typography and tabular measurement numerals.",
+      "Teal actions and validation, with explicit warning and error text.",
+      "Immediate state feedback and deliberate keyboard focus."
+    ],
+    "rules": [
+      {
+        "name": "The Contrast Rule",
+        "body": "Preserve the paired text, muted, accent-ink and focus colors in both themes; communicate status with words as well as color.",
+        "section": "colors"
+      },
+      {
+        "name": "The Working Pane Rule",
+        "body": "Preserve direct access to Inputs, Layout, Results and recovery actions on narrow screens.",
+        "section": "layout"
+      }
+    ],
+    "dos": [
+      "Do retain exact dimensions, tabular numerals and visible estimate qualifications.",
+      "Do preserve keyboard focus, mobile recovery controls and both complete themes.",
+      "Do keep geometry and report content inside their own scrollable regions."
+    ],
+    "donts": [
+      "Don't add external fonts, decorative imagery or network-dependent assets.",
+      "Don't replace the measured workspace with promotional cards or decorative motion.",
+      "Don't use color alone to communicate validation, selection or errors."
+    ]
+  }
+}
