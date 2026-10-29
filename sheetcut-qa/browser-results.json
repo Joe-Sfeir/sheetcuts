@@ -116,10 +116,10 @@
       "count": 1000,
       "sheets": 19,
       "utilization": 89.36168421052632,
-      "engineMs": 292.20000000298023,
+      "engineMs": 274.79999999701977,
       "attempts": 24,
-      "heartbeat": 16,
-      "wallMs": 344
+      "heartbeat": 15,
+      "wallMs": 322
     },
     {
       "name": "Cancellation returns control",

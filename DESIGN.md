@@ -134,6 +134,8 @@ Use Segoe UI with system fallbacks, entirely offline. Body and form text stay co
 
 ## Layout
 
+The default Simple mode uses a 380px input column and flexible canvas. Inputs are editable Width / Height / Quantity rows under Panels you have and Cuts you need. A three-value efficiency strip replaces the right sidebar and bottom reports. Simple/Pro remains visible in the toolbar. Reset is available in both modes; Save/Open and full settings belong to Pro. Simple mobile uses Inputs and Layout panes, with the selected piece inspector inline above the drawing. Mode changes preserve data and geometry.
+
 Desktop uses a toolbar, three working columns, and a bottom status bar. The standard columns are 370px inputs, a flexible canvas of at least 400px, and 270px results. Below 1251px but above 900px they become 325px / minmax(320px, 1fr) / 230px; from 1750px they become 400px / minmax(500px, 1fr) / 300px. Inputs and results scroll independently. Resizable report tables sit below the drawing.
 
 At 900px and below, the toolbar wraps and Inputs / Layout / Results navigation exposes one working pane at a time. Undo and Redo remain visible in the mobile toolbar; disabled recovery actions keep their place. Reports and tabs scroll horizontally within their own regions. Mobile report height is 200px and vertical resizing is disabled. The canvas reserves space for its controls.

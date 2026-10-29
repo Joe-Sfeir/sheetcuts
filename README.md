@@ -6,7 +6,11 @@
 
 Double-click **[index.html](index.html)** and open it in Chrome or Edge. No installation, server, internet connection, build step, or runtime dependencies are required. All application HTML, CSS, JavaScript and worker code live in that one file.
 
-The first launch loads and optimizes an editable example. Enter your material sheets and finished parts, set cutting constraints, then choose **Optimize layout**. Select a part to inspect its coordinates, use **Overview** to navigate sheets, and use **Export** for production documents.
+The first launch opens **Simple mode** with a labeled editable example. Enter **Panels you have** (width, height, quantity) and **Cuts you need** (width, height, quantity), then select **Optimize**. The output focuses on efficiency, panels used, placed pieces and the visual cutting plan.
+
+**Simple / Pro** changes the interface without changing your job or its cutting rules. Simple hides material fields, the project library, advanced analytics and strategy reports. Pro retains all of those controls. The selected mode is remembered. Any advanced constraints already configured in Pro remain active, with a visible notice in Simple.
+
+Use **Reset** to clear the current job; **Undo** restores it if needed. Simple-mode reset starts with zero kerf, gap and margins, so set your blade/laser clearance under **Cutting options** before a real job. Autosave still protects the current workspace, with no Save/Open steps required in Simple. Simple exports a clean report or selected-panel SVG; Pro exposes the complete export menu.
 
 ## Features
 
@@ -66,6 +70,7 @@ See [the QA report](docs/QA-REPORT.md) and recorded results in [sheetcut-qa](she
 
 - 26 executed engine tests passed, including exact fits, kerf, margins, rotation, grain, stock limits, arithmetic, validation corruption checks and seeded geometry fuzzing.
 - 29 executed browser checks passed, including direct `file://` Chrome and Edge, persistence, real exports, PDF generation, fallback, cancellation and keyboard/mobile workflows.
+- 14 additional Simple-mode checks passed: inline entry, Reset/Undo, data-preserving mode switching, units, finite stock, hidden metadata, exports and mobile navigation.
 - Zero external network requests and zero browser console errors during the Chrome acceptance run.
 - A 1,000-part Chrome benchmark placed all parts over 19 sheets at 89.36% utilization: 24 attempts in approximately **292 ms engine time / 344 ms interaction wall time** on the tested machine. Performance varies by machine and job.
 - Firefox was not executed because its Playwright browser binary is not installed. No browser was installed automatically.
@@ -78,6 +83,7 @@ These files are for maintainers; they are **not required to use the app**.
 node sheetcut-tests.cjs
 node sheetcut-browser-tests.cjs
 node sheetcut-print-check.cjs
+node sheetcut-simple-tests.cjs
 ```
 
 The engine suite uses only Node built-ins and reads the engine directly from `index.html`. The browser suite requires an already available Playwright installation and Chrome. It checks a local `playwright` module first, then the existing Windows Playwright CLI installation; alternatively set `SHEETCUT_PLAYWRIGHT_MODULE` to an installed module path. It does not install anything.

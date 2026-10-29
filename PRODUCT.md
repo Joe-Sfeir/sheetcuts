@@ -12,6 +12,9 @@ Enter stock and parts, compute geometrically valid layouts, inspect material and
 User specified SheetCut Pro, a compact professional CAD-style dark graphite/navy interface, optional light theme, precise dimensions and restrained motion.
 ## Capabilities and Constraints
 Prioritize geometry correctness, finite inventory, material and thickness isolation, rotation and grain restrictions. Heuristic solutions are best found, never claimed globally optimal. SVG exports are design geometry, not machine toolpaths.
+## Interface modes
+The user subsequently requested a simpler default workflow: available panel dimensions/quantities, required cut dimensions/quantities, efficiency and visuals. Simple mode hides material/type fields, Save/Open and advanced reports; Pro keeps the full interface. Both share the same job and engine. Reset clears the workspace with Undo recovery. Mode switching must not discard data or silently relax manufacturing constraints.
+
 ## Evidence on Hand
 The user supplied a detailed functional specification. Example jobs are synthetic and labeled. No client imagery is needed.
 ## Product Principles

@@ -1,0 +1,19 @@
+{
+  "checks": [
+    "Simple default hides project and material controls",
+    "Simple desktop and mobile layouts have no document overflow",
+    "Switching both ways preserves all project data and validated geometry",
+    "Reset clears job and Undo restores inputs and layout",
+    "Panel and cut entry with keyboard navigation computes exact-fit 100% result",
+    "Simple invalid dimensions rejected without modifying job",
+    "Simple unit changes preserve physical sizes",
+    "Kerf and finite panel quantities enforced with visible unplaced explanation",
+    "Simple overview and accessible part selection omit material metadata",
+    "Simple SVG and print report contain cuts, panels and efficiency only",
+    "Advanced restrictions remain visible and intact; preferred mode survives reload",
+    "Mobile input-to-optimize flow and reset stay direct",
+    "Pro mode remains usable without document overflow",
+    "No browser runtime errors"
+  ],
+  "errors": []
+}

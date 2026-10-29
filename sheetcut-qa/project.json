@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "id": "f0c0fbe5-f6cd-4040-8474-9d5c6f8a8cd6",
+  "id": "8f0780e1-0881-42cb-8dbf-b327100f9d20",
   "name": "SheetCut browser QA",
   "stocks": [
     {
@@ -167,5 +167,5 @@
     "palette": "industrial",
     "exportLabels": true
   },
-  "exportedAt": "2026-10-29T21:26:35.830Z"
+  "exportedAt": "2026-10-29T21:47:59.609Z"
 }

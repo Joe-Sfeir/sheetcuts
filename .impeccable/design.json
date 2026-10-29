@@ -86,7 +86,23 @@
       "controls": "2px solid var(--focus), 2px offset",
       "selection": "Focus selected inspector heading with preventScroll; scroll its section into view with instant behavior; open Results at mobile width."
     },
-    "documentationPolicy": "Only observed implementation tokens are recorded. No synthetic tonal ramps are introduced. Component previews are static visual specimens, not application functionality."
+    "documentationPolicy": "Only observed implementation tokens are recorded. No synthetic tonal ramps are introduced. Component previews are static visual specimens, not application functionality.",
+    "interfaceModes": {
+      "default": "simple",
+      "switchPreservesJob": true,
+      "simple": {
+        "columns": "380px inputs plus flexible canvas",
+        "inputs": "Panel and cut width, height, quantity",
+        "results": "Efficiency, panels used, pieces placed, diagram",
+        "mobile": "Inputs and Layout panes",
+        "reset": "Clears job with Undo recovery",
+        "advanced": "Collapsed cutting options; named projects and material controls in Pro"
+      },
+      "pro": {
+        "layout": "Original three-column CAD workspace",
+        "capabilities": "Full material, project, analytics and strategy controls"
+      }
+    }
   },
   "components": [
     {

@@ -11,3 +11,7 @@ Desktop: toolbar; 370px input panel; flexible measured canvas; 270px results pan
 Distinct details: exact stock boundary and reserved margins; deterministic part colors and dimensions; inventory consumed per stock; selected-copy coordinate inspector; physically computed production ledger.
 
 Acceptance: visible input-to-optimize workflow; a real SVG computed from placements; readable selected part metadata; errors and empty states; no document overflow at 390px; all controls keyboard accessible; desktop and mobile browser inspection; no external network calls.
+
+## Simple-mode refinement
+
+User-requested default: two columns on desktop, with an inline panel/cut quantity editor and a large drawing. A compact efficiency / panels-used / pieces-placed strip replaces the analytics sidebar and reports. Material names, costs, named-project controls and advanced strategies are exposed only in Pro. Reset and undo remain visible. Mobile has Inputs / Layout navigation; selection appears beside the drawing, with no separate Results destination. The graphite palette and drawing language remain unchanged. Simple SVG and print exports omit material metadata and production analytics. Both modes preserve the same data, geometry and constraints.
